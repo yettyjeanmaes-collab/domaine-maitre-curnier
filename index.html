@@ -522,7 +522,7 @@ footer.ft .ft-web a:hover{border-bottom-color:#f0d49a}
       <div class="bon-top"><div><h2>Espace réservé</h2><p class="who">Accès réservé, connexion obligatoire</p></div><div class="domaine"><b>DOMAINE MAÎTRE CURNIER</b></div></div>
       <form id="mc-login-form" class="login-f">
         <label for="mc-mail">E-mail<input id="mc-mail" type="email" autocomplete="username" required></label>
-        <label for="mc-pass">Mot de passe<input id="mc-pass" type="password" autocomplete="current-password" required minlength="8"></label>
+        <label for="mc-pass">Mot de passe<span style="display:flex;gap:.5rem;align-items:center"><input id="mc-pass" type="password" autocomplete="current-password" required minlength="8" style="flex:1"><button type="button" id="mc-eye" aria-label="Afficher le mot de passe" aria-pressed="false" style="font-size:1.4rem;padding:.4rem .7rem;cursor:pointer">👁</button></span></label>
         <div class="actions"><button type="submit" class="btn" id="mc-go">Se connecter</button><button type="button" id="mc-new">Créer mon mot de passe</button><button type="button" id="mc-forgot">Mot de passe oublié</button></div>
         <p class="hint" id="mc-msg" role="status"></p>
       </form>
@@ -1042,6 +1042,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 var URL_SB='https://ufuswihxfcpxqvynejzr.supabase.co',KEY='sb_publishable_TDGuMQz1aLkPe-ffpZcORg_BGreOgQV';
 if(!window.supabase)return;var sb=window.supabase.createClient(URL_SB,KEY);window.mcSb=sb;
 var box=document.getElementById('mc-login'),priv=document.getElementById('mc-private'),msg=document.getElementById('mc-msg');
+(function(){var b=document.getElementById('mc-eye'),p=document.getElementById('mc-pass');if(b&&p)b.addEventListener('click',function(){var h=p.type==='password';p.type=h?'text':'password';b.setAttribute('aria-pressed',h);b.setAttribute('aria-label',h?'Masquer le mot de passe':'Afficher le mot de passe');b.style.opacity=h?'.55':'1'})})();
 var mail=document.getElementById('mc-mail'),pass=document.getElementById('mc-pass');
 function say(t,err){msg.textContent=t;msg.className='hint'+(err?' err':'')}
 // Rangement réel dans le coffre privé : deux dossiers (prive-docs-1 par défaut, prive-docs-2 pour les fichiers listés ici)
