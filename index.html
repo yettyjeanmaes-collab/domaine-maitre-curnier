@@ -1,0 +1,970 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Domaine Maître Curnier</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+@font-face{font-family:"MC Titre";src:url("fonts/caladea-700.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Carlito";src:url("fonts/carlito-400.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Carlito";src:url("fonts/carlito-700.woff") format("woff");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Carlito";src:url("fonts/carlito-400i.woff") format("woff");font-weight:400;font-style:italic;font-display:swap}
+/* Layout : une grille de fiches dont les rubriques partagent les mêmes lignes (subgrid), comme le fascicule papier */
+:root{
+  --bg:#f7f7f7; --surface:#ffffff; --panel:#efefef; --line:#e1e1e1;
+  --fg:#3e4349; --muted:#5f6772; --wine:#870c0c; --wine-soft:#b81919;
+  --photo:#ffffff;
+  --b-rouge-bg:#efefef; --b-rouge-fg:#870c0c;
+  --b-rose-bg:#efefef; --b-rose-fg:#9a3a5e;
+  --b-blanc-bg:#efefef; --b-blanc-fg:#6b5a10;
+  --b-doux-bg:#efefef; --b-doux-fg:#7a5410;
+  --b-bulles-bg:#efefef; --b-bulles-fg:#1d5a86;
+  --display:"MC Titre","Caladea",Cambria,Georgia,serif;
+  --serif:"Carlito",Calibri,"Segoe UI",system-ui,sans-serif;
+  --sans:"Carlito",Calibri,"Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#161616; --surface:#1e1e1e; --panel:#262626; --line:#363636;
+  --fg:#ececec; --muted:#a9afb6; --wine:#d0634f; --wine-soft:#d4705c;
+  --photo:#ffffff;
+  --b-rouge-bg:#2a2a2a; --b-rouge-fg:#e08a78;
+  --b-rose-bg:#2a2a2a; --b-rose-fg:#e0a58f;
+  --b-blanc-bg:#2a2a2a; --b-blanc-fg:#eadf9e;
+  --b-doux-bg:#2a2a2a; --b-doux-fg:#f0d28f;
+  --b-bulles-bg:#2a2a2a; --b-bulles-fg:#a9d6f5;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#161616; --surface:#1e1e1e; --panel:#262626; --line:#363636;
+  --fg:#ececec; --muted:#a9afb6; --wine:#d0634f; --wine-soft:#d4705c;
+  --photo:#ffffff;
+  --b-rouge-bg:#2a2a2a; --b-rouge-fg:#e08a78;
+  --b-rose-bg:#2a2a2a; --b-rose-fg:#e0a58f;
+  --b-blanc-bg:#2a2a2a; --b-blanc-fg:#eadf9e;
+  --b-doux-bg:#2a2a2a; --b-doux-fg:#f0d28f;
+  --b-bulles-bg:#2a2a2a; --b-bulles-fg:#a9d6f5;
+  color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:15px;line-height:1.5}
+.wrap{max-width:1280px;margin:0 auto;padding-block:40px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:36px}
+
+.masthead{display:flex;flex-direction:column;gap:6px;border-bottom:2px solid var(--wine);padding-bottom:18px}
+.masthead h1{margin:0;font-weight:400;color:var(--wine);font-size:clamp(28px,4vw,42px);letter-spacing:.06em;text-transform:uppercase;text-wrap:balance}
+.masthead .place{margin:0;font-family:var(--sans);font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+
+.intro{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:28px}
+.intro h2{margin:0 0 6px;font-size:19px;font-weight:400;color:var(--wine)}
+.intro p{margin:0;max-width:62ch}
+.cepages{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 28px;background:var(--panel);border-radius:6px;padding:16px 18px}
+.cepages h2{grid-column:1/-1;margin:0}
+.cepages h4{margin:0 0 2px;font-family:var(--sans);font-size:12px;letter-spacing:.12em;color:var(--wine)}
+.cepages p{margin:0;font-size:14px}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters span{font-family:var(--sans);font-size:13px;color:var(--muted);margin-right:4px}
+.filters button{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:4px;padding:6px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--wine);border-color:var(--wine);color:var(--bg)}
+.filters button:focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+
+.fiches{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:40px 22px}
+.fiche{display:grid;grid-row:span 7;grid-template-rows:subgrid;row-gap:8px;min-width:0}
+.f-head{display:flex;flex-direction:column;gap:4px;border-bottom:2px solid var(--wine);padding-bottom:10px;justify-content:flex-start}
+.f-head h2{margin:0;font-weight:400;color:var(--wine);font-size:20px;line-height:1.2}
+.f-head h2 span{display:block}
+.sub{margin:0;font-style:italic;color:var(--muted);font-size:14px}
+.badge{align-self:flex-start;font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-radius:4px;padding:3px 10px;margin-top:4px}
+.b-rouge{background:var(--b-rouge-bg);color:var(--b-rouge-fg)}
+.b-rose{background:var(--b-rose-bg);color:var(--b-rose-fg)}
+.b-blanc{background:var(--b-blanc-bg);color:var(--b-blanc-fg)}
+.b-doux{background:var(--b-doux-bg);color:var(--b-doux-fg)}
+.b-bulles{background:var(--b-bulles-bg);color:var(--b-bulles-fg)}
+
+.photo{margin:0;background:var(--photo);border:1px solid var(--line);border-radius:6px;height:340px;display:flex;align-items:center;justify-content:center;padding:16px}
+.photo img{height:100%;width:auto;max-width:100%;object-fit:contain}
+/* Bouteilles sur fond de vignoble (Dentelles de Montmirail) */
+.photo{padding:0;overflow:hidden;border:0}
+.photo img{width:100%;height:100%;max-width:none;object-fit:cover;object-position:center bottom}
+/* Photo entière, au format de la photo (4:5), sur tous les écrans */
+.photo{height:auto;aspect-ratio:4/5}
+
+.blk,.duo{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.blk h3,.duo h4{margin:0 0 6px;padding-bottom:6px;border-bottom:1px dashed var(--line);font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--wine-soft)}
+.blk p{margin:0;font-size:14px}
+.blk b{color:var(--fg)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--panel)}
+.duo h4{border-bottom:0;padding-bottom:0;margin-bottom:2px;color:var(--muted);font-size:11px}
+.duo p{margin:0;font-size:14px}
+
+/* Onglets */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line);margin-top:-18px}
+.tabs a{font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--muted);text-decoration:none;padding:10px 14px;border-bottom:3px solid transparent;margin-bottom:-1px}
+.tabs a[aria-current="page"]{color:var(--wine);border-bottom-color:var(--wine)}
+.tabs a:focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+.view{display:flex;flex-direction:column;gap:36px}
+[hidden]{display:none!important}
+
+/* Bon de commande */
+.bon{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:28px clamp(16px,3vw,36px);display:flex;flex-direction:column;gap:26px}
+.bon-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;border-bottom:2px solid var(--wine);padding-bottom:16px}
+.bon-top h2{margin:0;font-weight:400;color:var(--wine);font-size:28px;letter-spacing:.04em}
+.bon-top .who{margin:2px 0 0;font-style:italic;color:var(--muted)}
+.domaine{font-family:var(--sans);font-size:13px;line-height:1.55;text-align:right;color:var(--fg)}
+.domaine b{font-family:var(--serif);font-size:16px;color:var(--wine);font-weight:400;letter-spacing:.05em}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px 18px}
+.grp{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px}
+fieldset{border:1px solid var(--line);border-radius:6px;padding:12px 14px 14px;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;min-width:0}
+legend{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--wine-soft);padding:0 6px}
+label{display:flex;flex-direction:column;gap:3px;font-family:var(--sans);font-size:12px;color:var(--muted);min-width:0}
+label.full{grid-column:1/-1}
+input,select,textarea{font:inherit;font-family:var(--serif);font-size:14px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:6px 8px;min-width:0;width:100%;box-sizing:border-box}
+textarea{resize:vertical;min-height:54px}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--wine);outline-offset:1px;border-color:var(--wine)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--wine);text-align:left;padding:9px 10px;white-space:nowrap}
+td{border-top:1px solid var(--line);padding:6px 10px;vertical-align:middle}
+tbody tr:nth-child(even) td{background:var(--panel)}
+td .n{display:block;color:var(--fg)}
+td .t{display:block;font-size:12px;font-style:italic;color:var(--muted)}
+td input{text-align:right;font-variant-numeric:tabular-nums}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.w-mil{width:76px}.w-prix{width:96px}.w-qte{width:70px}
+.bottom{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px;align-items:start}
+.totaux{border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.totaux div{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 14px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
+.totaux div:first-child{border-top:0}
+.totaux div span:first-child{font-family:var(--sans);font-size:13px;color:var(--muted)}
+.totaux .grand{background:var(--wine);color:var(--bg)}
+.totaux .grand span:first-child{color:var(--bg);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.totaux .grand span:last-child{font-size:18px}
+.totaux input{width:110px;text-align:right}
+.conds{font-size:13px;color:var(--fg);display:flex;flex-direction:column;gap:6px}
+.conds h3{margin:0;font-family:var(--sans);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--wine-soft)}
+.conds ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+.sign{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px}
+.sign .box{border:1px dashed var(--line);border-radius:6px;min-height:96px;padding:10px 12px;font-family:var(--sans);font-size:12px;color:var(--muted)}
+.legal{margin:0;font-family:var(--sans);font-size:12px;color:var(--muted);text-align:center;border-top:1px solid var(--line);padding-top:12px}
+.consent{border:1px solid var(--line);border-radius:6px;padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.cbox{flex-direction:row;align-items:flex-start;gap:8px;font-family:var(--serif);font-size:14px;color:var(--fg)}
+.cbox input{width:auto;margin-top:3px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.actions button{font-family:var(--sans);font-size:13px;font-weight:700;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:4px;padding:7px 16px;cursor:pointer}
+.actions button:focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+.actions small{font-family:var(--sans);color:var(--muted)}
+
+/* Demande de dégustation */
+.cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;background:var(--panel);border-left:4px solid var(--wine);border-radius:6px;padding:14px 18px}
+.cta p{margin:0;max-width:60ch}
+.cta strong{color:var(--wine);font-weight:400;font-size:18px;display:block}
+.btn{display:inline-block;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.04em;text-decoration:none;background:var(--wine);color:var(--bg);border:1px solid var(--wine);border-radius:4px;padding:9px 18px;cursor:pointer}
+.btn.ghost{background:var(--surface);color:var(--wine)}
+.btn:focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+.demande .grp{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.radios{display:flex;flex-wrap:wrap;gap:8px 18px;grid-column:1/-1}
+.radios label{flex-direction:row;align-items:center;gap:6px;font-size:14px;color:var(--fg)}
+.radios input{width:auto}
+.send{display:flex;flex-direction:column;gap:10px}
+.send .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.addr{font-family:var(--sans);font-size:14px;color:var(--fg);user-select:all;background:var(--panel);border-radius:4px;padding:4px 8px}
+.hint{margin:0;font-family:var(--sans);font-size:13px;color:var(--muted)}
+.hint.err{color:var(--wine)}
+.deg-intro{display:flex;flex-direction:column;gap:12px;max-width:68ch}
+.deg-intro p,.deg-intro ul{margin:0}
+.deg-intro ul{padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.fallback{display:flex;flex-direction:column;gap:8px;border:1px dashed var(--wine);border-radius:6px;padding:12px 14px}
+.fallback textarea{font-family:var(--sans);font-size:13px}
+
+/* Espace documents (masqué) */
+.docs-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px}
+.docs-head h2{margin:0;font-weight:400;color:var(--wine);font-size:26px}
+.docs-head p{margin:4px 0 0;color:var(--muted);font-family:var(--sans);font-size:14px}
+.docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.doc{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.doc .th{all:unset;cursor:pointer;display:block;background:var(--panel);aspect-ratio:4/3;max-width:100%;overflow:hidden}
+.doc .th img{width:100%;height:100%;object-fit:contain;object-position:top center;display:block}
+.doc .th:focus-visible{outline:2px solid var(--wine);outline-offset:-2px}
+.doc .b{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.doc h3{margin:0;font-weight:400;font-size:17px;color:var(--wine);line-height:1.2}
+.doc .aud{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.doc .aud.int{color:var(--wine-soft)}
+.doc p{margin:0;font-size:14px}
+.doc .act{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+.doc .act button{font-family:var(--sans);font-size:13px;font-weight:700;border-radius:4px;padding:6px 14px;cursor:pointer;border:1px solid var(--wine)}
+.doc .act .v{background:var(--wine);color:var(--bg)}
+.doc .act .d{background:var(--surface);color:var(--wine)}
+.doc .act button:focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+.subtabs{margin-top:0}
+.errata{border:1px solid var(--line);border-radius:8px;padding:12px 16px;background:var(--surface)}
+.errata h3{margin:0 0 6px;font-family:var(--sans);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--wine-soft)}
+.errata ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.secret{color:var(--muted);text-decoration:none;opacity:.55;margin-left:6px}
+.secret:hover,.secret:focus-visible{opacity:1;text-decoration:underline}
+.viewer{position:fixed;inset:0;z-index:50;background:#1b1617;color:#efe7e5;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.vbar{display:flex;align-items:center;gap:10px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));font-family:var(--sans);font-size:14px}
+.vbar .vt{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--serif);font-size:17px}
+.vbar button,.vnav button{font-family:var(--sans);font-size:14px;font-weight:700;background:#2b2425;color:#efe7e5;border:1px solid #4a3f40;border-radius:4px;padding:7px 14px;cursor:pointer}
+.vbar button:focus-visible,.vnav button:focus-visible{outline:2px solid #d4705c;outline-offset:2px}
+.vstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 max(16px,env(safe-area-inset-left,0px)) 0 max(16px,env(safe-area-inset-right,0px));touch-action:pan-y}
+.vstage img{max-width:100%;max-height:100%;object-fit:contain;background:#fff;box-shadow:0 4px 30px rgba(0,0,0,.5)}
+.vnav{display:flex;justify-content:center;align-items:center;gap:14px;padding:10px 16px 14px;font-family:var(--sans);font-size:14px;font-variant-numeric:tabular-nums}
+.vnav button:disabled{opacity:.35;cursor:default}
+footer{font-family:var(--sans);font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+@media (prefers-reduced-motion:no-preference){.fiche{transition:opacity .2s}}
+
+/* Style du site maitrecurnier.fr : titres Abril Fatface gris anthracite, texte Lato, accent rouge */
+.masthead h1,.intro h2,.f-head h2,.bon-top h2,.docs-head h2,.doc h3,.cta strong,.domaine b,.vbar .vt{font-family:var(--display);font-weight:400;color:var(--fg)}
+.masthead h1{letter-spacing:.02em;text-transform:none}
+.cepages h2{font-family:var(--display);font-weight:400;color:var(--fg)}
+.btn,.filters button,.actions button,.doc .act button{text-transform:uppercase;letter-spacing:.06em}
+.vbar .vt{color:#ececec}
+.hero{margin:12px 0 0;border-radius:6px;overflow:hidden;aspect-ratio:16/7;background:var(--panel)}
+.hero img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 42%}
+@media (max-width:640px){.hero{aspect-ratio:4/3}}
+/* Cinématique : dézoom lent sur la photo du domaine */
+.hero{position:relative}
+@media (prefers-reduced-motion:no-preference){
+  .hero img.dom{transform-origin:52% 40%;transform:scale(1.7)}
+  .hero.go img.dom{animation:dezoom 7s cubic-bezier(.22,.6,.2,1) forwards}
+  @keyframes dezoom{from{transform:scale(1.7)}to{transform:scale(1)}}
+}
+/* Smartphone : bons de commande en cartes, champs à 16 px (pas de zoom iOS), formulaires sur une colonne */
+@media (max-width:640px){
+  input,select,textarea{font-size:16px}
+  fieldset{grid-template-columns:1fr}
+  .domaine{text-align:left}
+  .tabs{gap:2px}
+  .tabs a{padding:8px 10px;font-size:13px}
+  .tbl{overflow:visible;border:0;border-radius:0}
+  .tbl table{min-width:0;display:block}
+  .tbl thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .tbl tbody{display:flex;flex-direction:column;gap:10px}
+  .tbl tr{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:var(--surface)}
+  .tbl tbody tr:nth-child(even) td{background:none}
+  .tbl td{border:0;padding:0;display:flex;flex-direction:column;gap:3px;min-width:0}
+  .tbl td:first-child{grid-column:1/-1;padding-bottom:6px;border-bottom:1px dashed var(--line)}
+  .tbl td:first-child .n{font-weight:700;color:var(--wine)}
+  .tbl td:nth-child(n+2)::before{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left}
+  .tbl td:nth-child(2)::before{content:"Millésime"}
+  .tbl td:nth-child(3)::before{content:"Prix unitaire"}
+  .tbl td:nth-child(4)::before{content:"Bouteilles"}
+  .tbl td:nth-child(5)::before{content:"Cartons ×6"}
+  .tbl td:nth-child(6)::before{content:"Total bouteilles"}
+  .tbl td:nth-child(7)::before{content:"Montant"}
+  .tbl td input{width:100%;text-align:left}
+  .tbl td.num{text-align:left;font-weight:700}
+  .totaux input{width:120px}
+}
+/* Bandeau Histoire / Terroir : vignes de Vacqueyras et Dentelles de Montmirail en transparence
+   (photo Véronique Pagnier, domaine public, Wikimedia Commons) */
+.intro{position:relative;isolation:isolate;border-radius:8px;overflow:hidden;padding:26px clamp(16px,3vw,32px)}
+.intro::before{content:"";position:absolute;inset:0;z-index:-2;background:url("docs/vignes-dentelles.jpg") center 30%/cover no-repeat;opacity:.6;filter:brightness(1.12) saturate(1.1)}
+.intro::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 62%,transparent) 0%,color-mix(in srgb,var(--bg) 45%,transparent) 55%,color-mix(in srgb,var(--bg) 20%,transparent) 100%)}
+.intro > div:not(.cepages){text-shadow:0 0 6px var(--bg),0 0 2px var(--bg)}
+.intro .cepages{background:color-mix(in srgb,#ffffff 93%,transparent);box-shadow:0 2px 12px rgba(0,0,0,.08)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .intro .cepages{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);box-shadow:none;backdrop-filter:blur(3px);text-shadow:0 1px 4px rgba(0,0,0,.85)}:root:not([data-theme="light"]) .intro .cepages h4{color:#e8c89a}}
+:root[data-theme="dark"] .intro .cepages{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);box-shadow:none;backdrop-filter:blur(3px);text-shadow:0 1px 4px rgba(0,0,0,.85)}
+:root[data-theme="dark"] .intro .cepages h4{color:#e8c89a}
+
+/* Espace réservé : Vin & plat */
+.vp-h{margin:8px 0 0;font-family:var(--display);font-weight:400;font-size:22px;color:var(--fg)}
+.macs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:18px}
+.mac{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.mac img{display:block;width:100%;height:auto;background:var(--panel);padding:12px;box-sizing:border-box}
+.mac .b{padding:10px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.mac h3{margin:0;font-family:var(--display);font-weight:400;font-size:19px;color:var(--fg)}
+.mac .aud{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mac p{margin:0;font-size:14px}
+.mac .sig b{color:var(--wine)}
+.foods{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.foods li{font-family:var(--sans);font-size:12px;font-weight:700;border:1px solid var(--line);border-radius:20px;padding:2px 10px;color:var(--wine)}
+.mac .pitch{font-style:italic;color:var(--muted)}
+.mac .act{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+.mac .act .btn{font-size:13px;padding:6px 14px}
+.mac.vis img{padding:0;aspect-ratio:1376/768;object-fit:cover}
+.mac .act button{font-family:var(--sans);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;border-radius:4px;padding:6px 14px;cursor:pointer;border:1px solid var(--wine);background:var(--wine);color:var(--bg)}
+
+/* Présentation en 3 volets qui défilent : Histoire, Terroir, Encépagement */
+.intro.car{display:grid;grid-template-columns:minmax(0,1fr);gap:0;padding:clamp(30px,4vw,50px) clamp(18px,6vw,80px) 26px}
+.intro.car > div:not(.car-nav){grid-area:1/1;max-width:70ch;width:100%;justify-self:center;opacity:0;visibility:hidden;transform:translateX(18px);transition:opacity .9s ease,transform .9s ease,visibility 0s .9s}
+.intro.car > div.on:not(.car-nav){opacity:1;visibility:visible;transform:none;transition:opacity .9s ease .15s,transform .9s ease .15s,visibility 0s}
+.intro.car h2{text-align:center;font-size:clamp(20px,2.2vw,26px);margin:0 0 14px}
+.intro.car h2::after{content:"";display:block;width:44px;height:1px;background:var(--wine);margin:10px auto 0;opacity:.8}
+.intro.car p{max-width:none;font-size:15.5px;line-height:1.65}
+.intro.car .cepages{background:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;padding:0;gap:14px 40px}
+.intro.car .cepages h2{grid-column:1/-1}
+@media (min-width:700px){.intro.car .cepages{grid-template-columns:1fr 1fr}}
+.car-nav{grid-area:2/1;justify-self:center;display:flex;gap:clamp(10px,3vw,30px);margin-top:26px}
+.car-nav button{all:unset;cursor:pointer;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:6px 0 8px;position:relative;text-shadow:none}
+.car-nav button::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--line)}
+.car-nav button i{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--wine);z-index:1}
+.car-nav button[aria-current="true"]{color:var(--fg)}
+.car-nav button[aria-current="true"] i{width:100%}
+.car-nav.run button[aria-current="true"] i{width:0;animation:carfill var(--dur,8s) linear forwards}
+@keyframes carfill{to{width:100%}}
+.car-nav button:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.intro.car > div:not(.car-nav){transition:none;transform:none}}
+
+/* Libellés des 3 volets : plus grands et lisibles sur la photo */
+.car-nav{gap:4px;padding:5px;border-radius:999px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.car-nav button{font-size:13px;letter-spacing:.14em;color:var(--fg);opacity:.75;padding:9px 16px 11px;border-radius:999px}
+.car-nav button::after{left:16px;right:16px;bottom:5px}
+.car-nav button i{left:16px;bottom:5px;max-width:calc(100% - 32px)}
+.car-nav button[aria-current="true"] i{width:calc(100% - 32px)}
+.car-nav.run button[aria-current="true"] i{width:0}
+@keyframes carfill{to{width:calc(100% - 32px)}}
+.car-nav button[aria-current="true"]{opacity:1;color:var(--wine)}
+@media (max-width:640px){.car-nav{gap:0;padding:4px;margin-top:22px}.car-nav button{font-size:13.5px;letter-spacing:.06em;padding:10px 12px 12px}.car-nav button::after,.car-nav button i{left:12px}.car-nav button::after{right:12px}.car-nav button i{max-width:calc(100% - 24px)}.car-nav button[aria-current="true"] i{width:calc(100% - 24px)}@keyframes carfill{to{width:calc(100% - 24px)}}}
+
+/* Contact */
+.cta-btns{display:flex;flex-wrap:wrap;gap:10px}
+.hint a,footer a.mail{color:var(--wine)}
+
+/* ===== Style : carte, onglets collants, animations, couleurs, pied de page ===== */
+:root{--gold:#b8924a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--wine:#c9606b;--wine-soft:#d97f88;--gold:#d4b06a}}
+:root[data-theme="dark"]{--wine:#c9606b;--wine-soft:#d97f88;--gold:#d4b06a}
+/* 1. Carte */
+.carte{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px clamp(16px,3vw,32px)}
+.carte h2{margin:0 0 10px;font-family:var(--display);font-weight:400;font-size:clamp(20px,2.2vw,26px);color:var(--fg)}
+.carte h2::after{content:"";display:block;width:44px;height:1px;background:var(--wine);margin-top:10px}
+.carte p{margin:0 0 10px;max-width:52ch}
+.carte ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.carte li b{color:var(--wine);font-weight:700}
+.carte figure{margin:0;border-radius:6px;overflow:hidden;background:#fff}
+.carte img{display:block;width:100%;height:auto}
+@media (max-width:760px){.carte{grid-template-columns:1fr}.carte figure{order:-1}}
+/* 2. Onglets collants + retour en haut */
+.tabs:not(.subtabs){position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding-top:max(4px,env(safe-area-inset-top,0px))}
+.totop{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(18px,env(safe-area-inset-bottom,0px));z-index:40;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--wine);font-size:20px;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.15);opacity:0;pointer-events:none;transition:opacity .3s}
+.totop.on{opacity:1;pointer-events:auto}
+.totop:focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+@media (max-width:640px){.tabs:not(.subtabs){flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.tabs:not(.subtabs)::-webkit-scrollbar{display:none}.tabs:not(.subtabs) a{white-space:nowrap}}
+/* 3. Apparition des fiches + zoom bouteille */
+@media (prefers-reduced-motion:no-preference){
+  .js-reveal .fiche > *{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+  .js-reveal .fiche.vis > *{opacity:1;transform:none}
+  .photo img{transition:transform .6s ease}
+  .fiche:hover .photo img{transform:scale(1.04)}
+}
+/* 5. Couleur par type de vin */
+.fiche{--tc:var(--wine)}
+.fiche[data-type="rose"]{--tc:#c2577f}.fiche[data-type="blanc"]{--tc:#b8932a}.fiche[data-type="doux"]{--tc:#b8742a}.fiche[data-type="bulles"]{--tc:#a88a3e}
+.fiche .f-head{border-bottom:3px solid var(--tc)}
+.fiche .photo{box-shadow:inset 0 3px 0 var(--tc)}
+.fiche .blk h3{color:var(--tc)}
+/* 6. Pied de page */
+footer.ft{background:#701a20;color:#f3e7d6;border:0;border-radius:8px;padding:26px clamp(16px,3vw,32px) 18px;display:flex;flex-direction:column;gap:6px;text-align:center}
+footer.ft .ft-name{font-family:var(--display);font-size:24px;color:#d9b673;letter-spacing:.02em}
+footer.ft .ft-name::after{content:"";display:block;width:44px;height:1px;background:#d9b673;margin:10px auto 6px;opacity:.8}
+footer.ft .ft-line{font-size:14px}
+footer.ft a.mail{color:#f0d49a}
+footer.ft .ft-legal{font-size:12px;opacity:.8;margin-top:8px}
+footer.ft .credits{font-size:11px;opacity:.6}
+footer.ft .secret{color:#f3e7d6;opacity:.35}
+
+/* Défilement de la photo d'en-tête : domaine, Dentelles, Ventoux */
+.hero .sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.8s ease}
+.hero .dom{transition:opacity 1.8s ease}
+.hero.slide .dom.off{opacity:0}
+.hero .sl.on{opacity:1}
+@media (prefers-reduced-motion:no-preference){.hero .sl.on{animation:kb 10s linear forwards}@keyframes kb{from{transform:scale(1.0)}to{transform:scale(1.08)}}}
+.hero .hcap{position:absolute;left:0;right:0;bottom:0;padding:26px clamp(14px,3vw,26px) 12px;background:linear-gradient(transparent,rgba(0,0,0,.5));color:#fff;font-family:var(--display);font-size:clamp(15px,1.8vw,20px);text-shadow:0 1px 4px rgba(0,0,0,.5);opacity:0;transition:opacity .8s ease}
+.hero .hcap.on{opacity:1}
+
+/* Fiche PDF par vin */
+.fdl{align-self:flex-start;margin-top:6px;font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tc,var(--wine));text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px}
+.fdl::before{content:"⤓ "}
+.fdl:hover,.fdl:focus-visible{opacity:.75}
+/* Carte agrandissable */
+.zoomable{position:relative;cursor:zoom-in}
+.zoomable:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+.zhint{position:absolute;right:10px;bottom:10px;font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.04em;background:rgba(255,255,255,.92);color:#701a20;border-radius:999px;padding:5px 12px;box-shadow:0 1px 6px rgba(0,0,0,.15)}
+.lbox{position:fixed;inset:0;z-index:60;background:rgba(20,16,16,.92);display:flex;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top,0px)) 12px max(12px,env(safe-area-inset-bottom,0px))}
+.lbox[hidden]{display:none!important}
+.lb-in{max-width:100%;max-height:100%;overflow:auto;touch-action:pinch-zoom pan-x pan-y}
+.lb-in img{display:block;max-width:min(100%,1100px);max-height:calc(100vh - 40px);width:auto;height:auto;margin:auto;background:#fff;border-radius:4px}
+.lb-x{position:absolute;top:max(12px,env(safe-area-inset-top,0px));right:12px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#701a20;font-size:20px;cursor:pointer}
+/* Pause du défilement */
+.hpause{position:absolute;right:12px;bottom:12px;z-index:3;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.6);background:rgba(0,0,0,.35);color:#fff;font-size:13px;line-height:1;cursor:pointer;backdrop-filter:blur(4px)}
+.hpause:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.hero.paused .sl.on,.hero.paused .dom{animation-play-state:paused}
+.hero .hcap{padding-right:60px}
+/* Impression d'un bon de commande */
+@media print{
+  @page{size:A4;margin:12mm}
+  body.print-bon *{visibility:hidden}
+  body.print-bon .view:not([hidden]) .bon,body.print-bon .view:not([hidden]) .bon *{visibility:visible}
+  body.print-bon .view:not([hidden]) .bon{position:absolute;left:0;top:0;width:100%;border:0;padding:0}
+  body.print-bon .bon .actions{display:none}
+  body.print-bon .tbl{overflow:visible}
+  body.print-bon input,body.print-bon select,body.print-bon textarea{border:0;border-bottom:1px solid #999;border-radius:0;background:none}
+}
+
+/* Pictogrammes d'accords */
+.pictos{list-style:none;margin:2px 0 8px;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px}
+.pictos li{display:flex;align-items:center;gap:5px;font-family:var(--sans);font-size:12px;font-weight:700;color:var(--tc,var(--wine))}
+.pictos svg{flex:none}
+
+/* Fiches repliées : détails sur demande */
+.fiches.compact{align-items:start}
+.fiches.compact .fiche{display:flex;flex-direction:column;gap:8px;grid-row:auto}
+.fiches.compact .fiche:not(.open) > .blk,.fiches.compact .fiche:not(.open) > .duo{display:none}
+.fmore{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tc,var(--wine))}
+.fmore .pm{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--tc,var(--wine));color:#fff;font-size:16px;line-height:1;letter-spacing:0}
+.fmore:hover{border-color:var(--tc,var(--wine))}
+.fmore:focus-visible{outline:2px solid var(--tc,var(--wine));outline-offset:2px}
+.fiche.open .fmore{order:99}
+.fall{margin-left:auto;font-family:var(--sans);font-size:13px;font-weight:700;color:var(--wine);background:none;border:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:6px 4px}
+
+/* Fiche en pleine page */
+.fpanel{position:fixed;inset:0;z-index:70;background:var(--bg);overflow:auto;-webkit-overflow-scrolling:touch;padding:0 max(16px,env(safe-area-inset-right,0px)) max(24px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.fpanel[hidden]{display:none!important}
+.fp-bar{position:sticky;top:0;z-index:2;display:flex;justify-content:flex-end;padding:max(12px,env(safe-area-inset-top,0px)) 0 10px;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);max-width:1040px;margin:0 auto}
+.fp-btn{all:unset;-webkit-user-select:none;user-select:none;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tc,var(--wine))}
+.fp-btn .pm{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--tc,var(--wine));color:#fff;font-size:16px;line-height:1}
+.fp-btn:focus-visible{outline:2px solid var(--tc,var(--wine));outline-offset:2px}
+.fp-in{max-width:1040px;margin:0 auto}
+.fiche.inpanel{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);grid-template-rows:none;gap:12px 24px;align-items:start}
+.fiche.inpanel > *{opacity:1!important;transform:none!important}
+.fiche.inpanel .f-head{grid-column:1/-1}
+.fiche.inpanel .photo{grid-column:1;grid-row:2/span 5;align-self:stretch;height:auto;aspect-ratio:auto;min-height:100%}
+.fiche.inpanel .photo img{height:100%;object-fit:cover;object-position:center bottom}
+.fiche.inpanel > .blk,.fiche.inpanel > .duo,.fiche.inpanel > .fp-mnav{grid-column:2}
+.fiche.inpanel .f-head h2{font-size:clamp(22px,2.6vw,30px)}
+@media (max-width:760px){.fiche.inpanel{grid-template-columns:1fr}.fiche.inpanel .photo{grid-column:1;grid-row:auto;position:static}.fiche.inpanel > .blk,.fiche.inpanel > .duo,.fiche.inpanel > .fp-mnav{grid-column:1}}
+
+/* Boutons de la fiche pleine page : Fermer / Suivant à droite, Précédent à gauche (grands écrans) */
+.fp-prev,.fp-next{display:none}
+.fp-mnav{position:sticky;bottom:0;z-index:2;display:flex;justify-content:space-between;gap:10px;max-width:1040px;margin:18px auto 0;padding:10px 0 max(6px,env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.fp-mnav[hidden]{display:none}
+.fiche.inpanel > .fp-mnav{margin:18px 0 0;width:100%;box-sizing:border-box}
+.fp-mnav button{all:unset;-webkit-user-select:none;user-select:none;box-sizing:border-box;cursor:pointer;flex:1;min-width:0;padding:11px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-family:var(--sans);font-size:13px;font-weight:700;color:var(--tc,var(--wine));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp-mnav .fp-mnext{text-align:right}
+.fp-mnav b{display:block;font-size:13px}
+.fp-mnav .nm{display:block;font-size:11px;font-weight:400;opacity:.75;overflow:hidden;text-overflow:ellipsis}
+.fp-mnav button:focus-visible{outline:2px solid var(--tc,var(--wine));outline-offset:2px}
+.fiche.inpanel.from-r{animation:fpr .35s ease}.fiche.inpanel.from-l{animation:fpl .35s ease}
+@keyframes fpr{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes fpl{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fiche.inpanel.from-r,.fiche.inpanel.from-l{animation:none}}
+@media (min-width:1280px){
+  .fpanel.side .fp-bar{position:fixed;top:0;left:0;flex-direction:column;gap:10px;padding:0;background:none;backdrop-filter:none;-webkit-backdrop-filter:none;margin:0;max-width:none;transform:translate(var(--bx,0px),var(--by,0px))}
+  .fpanel.side .fp-prev{position:fixed;top:0;left:0;transform:translate(var(--bx,0px),var(--by,0px));z-index:2}
+  .fpanel.side .fp-prev[hidden],.fpanel.side .fp-next[hidden]{display:none}
+  .fpanel.side .fp-btn{flex-direction:column;gap:8px;padding:14px 12px;width:84px;justify-content:center;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+  .fpanel.side .fp-btn .pm{width:44px;height:44px;font-size:28px}
+  .fpanel.side .fp-mnav{position:static;justify-content:center;gap:14px;margin:6px 0 0;padding:0;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+  .fpanel.side .fp-mnav button{flex:0 1 230px}
+  .fpanel.side{padding-top:40px}
+}
+
+/* Onglet Nous contacter */
+.contact .mailbig{font-family:var(--display);font-size:clamp(18px,2.4vw,24px);margin:4px 0}
+.contact .mailbig a{color:var(--wine);text-decoration:none;border-bottom:1px solid currentColor;word-break:break-all}
+.contact .cbtns{display:flex;flex-wrap:wrap;gap:10px}
+
+footer.ft .ft-web{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 22px}
+footer.ft .ft-web a{display:inline-flex;align-items:center;gap:6px;color:#f0d49a;text-decoration:none;border-bottom:1px solid rgba(240,212,154,.5)}
+footer.ft .ft-web a:hover{border-bottom-color:#f0d49a}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <h1>Domaine Maître Curnier</h1>
+    <p class="place">Vacqueyras · Vallée du Rhône Sud</p>
+    <figure class="hero"><img class="dom" src="docs/domaine-aerien.jpg" alt="Vue aérienne du Domaine Maître Curnier au milieu de ses vignes, à Vacqueyras" width="1068" height="767"><img class="sl" style="object-position:50% 28%" src="docs/hero-dentelles.jpg" alt="Vacqueyras et les Dentelles de Montmirail" loading="lazy" data-cap="Vacqueyras et les Dentelles de Montmirail"><img class="sl" style="object-position:50% 35%" src="docs/hero-ventoux.jpg" alt="Le Mont Ventoux vu depuis les vignes de Beaumes-de-Venise" loading="lazy" data-cap="Le Mont Ventoux"><figcaption class="hcap" aria-live="polite">Le Domaine Maître Curnier</figcaption></figure>
+  </header>
+
+  <nav class="tabs" aria-label="Sections">
+    <a href="#fiches" data-v="fiches">Fiches techniques</a>
+    <a href="#commande-pro" data-v="commande-pro">Bon de commande Professionnels</a>
+    <a href="#commande-particulier" data-v="commande-particulier">Bon de commande Particuliers</a>
+    <a href="#degustation" data-v="degustation">Demande de dégustation</a>
+    <a href="#contact" data-v="contact">Nous contacter</a>
+    <!-- Onglet temporaire : à protéger par un mot de passe / code numérique -->
+    <a href="#documents" data-v="documents">Espace réservé</a>
+  </nav>
+
+  <div class="view" id="v-commande-pro" hidden></div>
+  <div class="view" id="v-commande-particulier" hidden></div>
+
+  <div class="view" id="v-degustation" hidden>
+    <section class="bon demande">
+      <div class="bon-top"><div><h2>Demande de dégustation</h2><p class="who">Une soirée chez vous avec vos amis, ou une présentation dans votre établissement</p></div>
+        <div class="domaine"><b>DOMAINE MAÎTRE CURNIER</b><br>Votre contact en Belgique</div></div>
+      <div class="deg-intro">
+        <p>Vous aimeriez faire découvrir les vins du Domaine Maître Curnier à vos amis, ou les proposer à vos clients ? Nous venons chez vous avec les vins, les fiches de dégustation et toute l’animation.</p>
+        <ul>
+          <li><b>Chez vous</b> : une soirée de 8 à 15 personnes, environ 2 h 30, sans obligation d’achat.</li>
+          <li><b>Dans votre établissement</b> : une présentation et une dégustation de nos vins pour votre carte.</li>
+        </ul>
+        <p><b>Quand ?</b> Nos dégustations ont lieu le vendredi soir, le samedi en journée ou le samedi soir.</p>
+        <p>Remplissez le formulaire en une minute : nous vous recontactons rapidement pour fixer une date.</p>
+        <p><a class="btn" href="https://docs.google.com/forms/d/1aVBGvJRZ6X4UFwbzjl5oh5pzUMc9xB3k6svp0UsOG1g/viewform" target="_blank" rel="noopener">Demande de dégustation</a></p>
+        <p class="hint">Le formulaire s’ouvre dans un nouvel onglet (Google Forms). Pas besoin de compte Google.</p>
+        <p class="hint">Une question avant de réserver ? Écrivez-nous : <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=degustations.maitrecurnier@gmail.com&amp;su=Domaine%20Ma%C3%AEtre%20Curnier%20%E2%80%94%20Question" target="_blank" rel="noopener">degustations.maitrecurnier@gmail.com</a></p>
+      </div>
+      <p class="legal">L’abus d’alcool est dangereux pour la santé, à consommer avec modération. Dégustations réservées aux personnes majeures.</p>
+    </section>
+  </div>
+
+  <div class="view" id="v-contact" hidden>
+    <section class="bon contact">
+      <div class="bon-top"><div><h2>Nous contacter</h2><p class="who">Une question sur les vins, une commande, une soirée de dégustation ?</p></div>
+        <div class="domaine"><b>DOMAINE MAÎTRE CURNIER</b><br>Votre contact en Belgique</div></div>
+      <div class="deg-intro">
+        <p>Écrivez-nous, nous vous répondons rapidement.</p>
+        <p class="mailbig"><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=degustations.maitrecurnier@gmail.com&amp;su=Domaine%20Ma%C3%AEtre%20Curnier%20%E2%80%94%20Question" target="_blank" rel="noopener">degustations.maitrecurnier@gmail.com</a></p>
+        <p class="cbtns"><a class="btn" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=degustations.maitrecurnier@gmail.com&amp;su=Domaine%20Ma%C3%AEtre%20Curnier%20%E2%80%94%20Question" target="_blank" rel="noopener">Écrire avec Gmail</a><a class="btn ghost" href="mailto:degustations.maitrecurnier@gmail.com?subject=Domaine%20Ma%C3%AEtre%20Curnier%20%E2%80%94%20Question" target="_blank" rel="noopener">Autre messagerie</a><button type="button" class="btn ghost" id="copymail">Copier l’adresse</button><a class="btn ghost" href="https://docs.google.com/forms/d/1aVBGvJRZ6X4UFwbzjl5oh5pzUMc9xB3k6svp0UsOG1g/viewform" target="_blank" rel="noopener">Demande de dégustation</a></p>
+        <p class="hint">« Écrire avec Gmail » ouvre un nouveau message dans Gmail. « Autre messagerie » ouvre la messagerie de votre appareil (Outlook, Mail…).</p>
+      </div>
+      <p class="legal">L’abus d’alcool est dangereux pour la santé, à consommer avec modération.</p>
+    </section>
+  </div>
+
+  <div class="view" id="v-documents" hidden>
+    <section class="bon login" id="mc-login">
+      <div class="bon-top"><div><h2>Espace réservé</h2><p class="who">Accès réservé, connexion obligatoire</p></div><div class="domaine"><b>DOMAINE MAÎTRE CURNIER</b></div></div>
+      <form id="mc-login-form" class="login-f">
+        <label for="mc-mail">E-mail<input id="mc-mail" type="email" autocomplete="username" required></label>
+        <label for="mc-pass">Mot de passe<input id="mc-pass" type="password" autocomplete="current-password" required minlength="8"></label>
+        <div class="actions"><button type="submit" class="btn" id="mc-go">Se connecter</button><button type="button" id="mc-new">Créer mon mot de passe</button><button type="button" id="mc-forgot">Mot de passe oublié</button></div>
+        <p class="hint" id="mc-msg" role="status"></p>
+      </form>
+    </section>
+    <div id="mc-private" hidden>
+    <div class="docs-head"><div><h2>Espace réservé</h2><p>Touchez une miniature pour l’afficher en grand. Cet espace n’apparaît pas dans les onglets.</p></div><span><a class="btn ghost" href="#fiches">Retour aux fiches</a> <button type="button" class="btn ghost" id="mc-out">Se déconnecter</button></span></div>
+    <nav class="tabs subtabs" aria-label="Espace réservé">
+      <a href="#documents" data-sub="documents">Documents</a>
+      <a href="#cours" data-sub="cours">Cours</a>
+      <a href="#vinplat" data-sub="vinplat">Vin &amp; plat</a>
+    </nav>
+    <div id="sub-documents"><div class="docs" id="docs-grid"></div></div>
+    <div id="sub-cours" hidden>
+      <div class="cta"><p><strong>Cartes mémoire œnologie</strong>71 questions-réponses sur les cours 1 à 6, avec suivi de ce qu’il reste à revoir.</p><a class="btn" href="https://claude.ai/artifact/DtRUu46Bhy7MNmENWZQoAP" target="_blank" rel="noopener">Ouvrir les cartes mémoire</a></div>
+      <div class="errata"><h3>Corrections à connaître (relecture du 29 octobre 2026)</h3><ul>
+        <li><b>Cours 3 et 4</b> : la Belgique compte <b>cinq</b> bières trappistes (Chimay, Orval, Rochefort, Westmalle, Westvleteren) ; Achel a perdu le label en 2021.</li>
+        <li><b>Cours 3</b> : le cépage résistant s’appelle <b>souvignier gris</b>, pas « souvenir gris ».</li>
+        <li><b>Cours 3 et 4</b> : depuis 2022, seuls Figeac et Pavie sont premiers grands crus classés A à Saint-Émilion (Ausone, Cheval Blanc et Angélus se sont retirés).</li>
+        <li><b>Cours 1</b> : depuis décembre 2023, l’étiquette doit aussi donner la valeur énergétique et l’accès aux ingrédients (souvent par QR code).</li>
+        <li><b>Cours 5</b> : Châteauneuf-du-Pape est l’une des toutes premières AOC (1936), pas la seule. Crus voisins : Beaumes-de-Venise rouge 2005, Rasteau 2010, Cairanne 2016.</li>
+      </ul></div>
+      <div class="docs" id="cours-grid"></div>
+    </div>
+    <div id="sub-vinplat" hidden>
+      <div class="cta"><p><strong>Vin &amp; plat</strong>Un accord signature par vin, trois aliments à retenir et la phrase à dire au client : les fiches pour la table, les visuels pour montrer l’accord en un coup d’œil.</p></div>
+      <div class="docs" id="vinplat-grid"></div>
+      <h3 class="vp-h">Les visuels d’accords</h3>
+      <div class="macs"><article class="mac vis"><img loading="lazy" data-psrc="docs/accord-1-antan.jpg" alt="Cuvée d’Antan : la bouteille, un verre et une ardoise avec jambon de canard, saucisson de sanglier, truffe &amp; thym" width="1376" height="768">
+<div class="b"><h3>Cuvée d’Antan</h3><p>Jambon de canard, saucisson de sanglier, truffe &amp; thym</p>
+<div class="act"><a class="btn ghost" href="#vinplat" data-phref="docs/accord-1-antan.jpg" target="_blank" rel="noopener">Ouvrir l’image</a><button type="button" class="mdl" data-data-psrc="docs/accord-1-antan.jpg" data-file="Accord_Cuvee_d_Antan_-_Domaine_Maitre_Curnier.jpg" hidden>Télécharger l’image</button></div></div></article><article class="mac vis"><img loading="lazy" data-psrc="docs/accord-2-trad.jpg" alt="Tradition : la bouteille, un verre et une ardoise avec carré d’agneau aux herbes, magret de canard, fromages" width="1376" height="768">
+<div class="b"><h3>Tradition</h3><p>Carré d’agneau aux herbes, magret de canard, fromages</p>
+<div class="act"><a class="btn ghost" href="#vinplat" data-phref="docs/accord-2-trad.jpg" target="_blank" rel="noopener">Ouvrir l’image</a><button type="button" class="mdl" data-data-psrc="docs/accord-2-trad.jpg" data-file="Accord_Tradition_-_Domaine_Maitre_Curnier.jpg" hidden>Télécharger l’image</button></div></div></article><article class="mac vis"><img loading="lazy" data-psrc="docs/accord-3-conv.jpg" alt="La Conviviale : la bouteille, un verre et une ardoise avec charcuteries fines, pizza artisanale, rosbif" width="1376" height="768">
+<div class="b"><h3>La Conviviale</h3><p>Charcuteries fines, pizza artisanale, rosbif</p>
+<div class="act"><a class="btn ghost" href="#vinplat" data-phref="docs/accord-3-conv.jpg" target="_blank" rel="noopener">Ouvrir l’image</a><button type="button" class="mdl" data-data-psrc="docs/accord-3-conv.jpg" data-file="Accord_La_Conviviale_-_Domaine_Maitre_Curnier.jpg" hidden>Télécharger l’image</button></div></div></article><article class="mac vis"><img loading="lazy" data-psrc="docs/accord-4-blanc.jpg" alt="Vacqueyras blanc : la bouteille, un verre et une ardoise avec poisson grillé, gambas poêlées, chèvres affinés" width="1376" height="768">
+<div class="b"><h3>Vacqueyras blanc</h3><p>Poisson grillé, gambas poêlées, chèvres affinés</p>
+<div class="act"><a class="btn ghost" href="#vinplat" data-phref="docs/accord-4-blanc.jpg" target="_blank" rel="noopener">Ouvrir l’image</a><button type="button" class="mdl" data-data-psrc="docs/accord-4-blanc.jpg" data-file="Accord_Vacqueyras_blanc_-_Domaine_Maitre_Curnier.jpg" hidden>Télécharger l’image</button></div></div></article><article class="mac vis"><img loading="lazy" data-psrc="docs/accord-5-rose.jpg" alt="Vacqueyras rosé : la bouteille, un verre et une ardoise avec petits farcis, brochettes de crevettes, toasts de tapenade" width="1376" height="768">
+<div class="b"><h3>Vacqueyras rosé</h3><p>Petits farcis, brochettes de crevettes, toasts de tapenade</p>
+<div class="act"><a class="btn ghost" href="#vinplat" data-phref="docs/accord-5-rose.jpg" target="_blank" rel="noopener">Ouvrir l’image</a><button type="button" class="mdl" data-data-psrc="docs/accord-5-rose.jpg" data-file="Accord_Vacqueyras_rose_-_Domaine_Maitre_Curnier.jpg" hidden>Télécharger l’image</button></div></div></article><article class="mac vis"><img loading="lazy" data-psrc="docs/accord-6-cdr.jpg" alt="Côtes du Rhône : la bouteille, un verre et une ardoise avec poulet rôti, jambon d’ardenne, tian provençal" width="1376" height="768">
+<div class="b"><h3>Côtes du Rhône</h3><p>Poulet rôti, jambon d’Ardenne, tian provençal</p>
+<div class="act"><a class="btn ghost" href="#vinplat" data-phref="docs/accord-6-cdr.jpg" target="_blank" rel="noopener">Ouvrir l’image</a><button type="button" class="mdl" data-data-psrc="docs/accord-6-cdr.jpg" data-file="Accord_Cotes_du_Rhone_-_Domaine_Maitre_Curnier.jpg" hidden>Télécharger l’image</button></div></div></article><article class="mac vis"><img loading="lazy" data-psrc="docs/accord-7-muscat.jpg" alt="Muscat de Beaumes-de-Venise : la bouteille, un verre et une ardoise avec foie gras &amp; pain d’épices, melon, tarte au citron" width="1376" height="768">
+<div class="b"><h3>Muscat de Beaumes-de-Venise</h3><p>Foie gras &amp; pain d’épices, melon, tarte au citron</p>
+<div class="act"><a class="btn ghost" href="#vinplat" data-phref="docs/accord-7-muscat.jpg" target="_blank" rel="noopener">Ouvrir l’image</a><button type="button" class="mdl" data-data-psrc="docs/accord-7-muscat.jpg" data-file="Accord_Muscat_de_Beaumes-de-Venise_-_Domaine_Maitre_Curnier.jpg" hidden>Télécharger l’image</button></div></div></article><article class="mac vis"><img loading="lazy" data-psrc="docs/accord-8-perles.jpg" alt="Perles de Rêve : la bouteille, un verre et une ardoise avec toasts de saumon fumé, croquettes aux crevettes grises, fraises" width="1376" height="768">
+<div class="b"><h3>Perles de Rêve</h3><p>Toasts de saumon fumé, croquettes aux crevettes grises, fraises</p>
+<div class="act"><a class="btn ghost" href="#vinplat" data-phref="docs/accord-8-perles.jpg" target="_blank" rel="noopener">Ouvrir l’image</a><button type="button" class="mdl" data-data-psrc="docs/accord-8-perles.jpg" data-file="Accord_Perles_de_Reve_-_Domaine_Maitre_Curnier.jpg" hidden>Télécharger l’image</button></div></div></article></div>
+      <p class="hint">Accords proposés, à faire valider par le domaine avant diffusion.</p>
+    </div>
+  </div>
+  </div>
+  <div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-labelledby="v-title">
+    <div class="vbar"><span class="vt" id="v-title"></span><button type="button" id="v-full">Plein écran</button><button type="button" id="v-close">Fermer</button></div>
+    <div class="vstage" id="v-stage"><img id="v-img" alt=""></div>
+    <div class="vnav"><button type="button" id="v-prev">‹ Page précédente</button><span id="v-count"></span><button type="button" id="v-next">Page suivante ›</button></div>
+  </div>
+
+  <div class="view" id="v-fiches">
+  <div class="cta"><p><strong>Envie de découvrir ces vins ?</strong>Nous venons chez vous, ou dans votre établissement, pour une soirée de dégustation.</p><span class="cta-btns"><a class="btn" href="https://docs.google.com/forms/d/1aVBGvJRZ6X4UFwbzjl5oh5pzUMc9xB3k6svp0UsOG1g/viewform" target="_blank" rel="noopener">Demande de dégustation</a></span></div>
+  <section class="intro" aria-label="Présentation du domaine">
+    <div>
+      <h2>Histoire &amp; Transmission</h2>
+      <p>Le domaine tire son nom de Maître Curnier, notaire à Vacqueyras vers 1750, qui créa la propriété initiale comprenant le corps de ferme, la chapelle et son réseau d'irrigation. En 1850, le domaine entre dans la famille Guintrand par alliance. C'est en 1965 qu'Henri Guintrand réoriente et spécialise définitivement l'exploitation dans la viticulture de haute qualité. Aujourd'hui, Bénédicte et André Viougeas perpétuent ce savoir-faire familial d'exception sur 12 hectares. Officiellement en conventionnel, le domaine travaille comme en bio : pas de désherbage chimique, uniquement des produits autorisés en agriculture biologique, aucun insecticide. Un choix assumé sans label : pour eux, le bio devrait être la norme.</p>
+    </div>
+    <div>
+      <h2>Terroir &amp; Géographie</h2>
+      <p>Niché au nord de l'appellation Vacqueyras dans le Vaucluse, le domaine s’étend au pied de la colline de Cavau, dans le prolongement direct des spectaculaires Dentelles de Montmirail. Bénéficiant du climat méditerranéen et de l'influence rafraîchissante du Mistral, les terrasses argilo-calcaires et les sols de cailloutis apportent aux vins une typicité remarquable, mêlant puissance, finesse et richesse aromatique.</p>
+    </div>
+    <div class="cepages">
+      <h2>Encépagement du Domaine</h2>
+      <div><h4>CÉPAGES ROUGES</h4><p>Grenache Noir (majoritaire, apportant rondeur et puissance), Syrah (structure et épices), Cinsault, Carignan et Mourvèdre.</p></div>
+      <div><h4>CÉPAGES BLANCS</h4><p>Marsanne, Viognier et Clairette offrant complexité florale et belle fraîcheur.</p></div>
+    </div>
+  </section>
+  <p class="vidlink"><a href="https://www.facebook.com/100057653012609/videos/pcb.1226462199285536/775391915357295" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>Voir la vidéo du domaine</a></p>
+
+  <section class="carte" aria-label="Situation du domaine">
+    <div>
+      <h2>Où se trouve le domaine</h2>
+      <p>Au cœur de la Vallée du Rhône Sud, entre le Mont Ventoux et le Rhône, le domaine est au nord de l’appellation Vacqueyras, au pied des Dentelles de Montmirail.</p>
+      <ul>
+        <li><b>Vacqueyras</b> · voisin de Gigondas et de Châteauneuf-du-Pape</li>
+        <li><b>Avignon</b> · à environ 35 km</li>
+        <li><b>Orange</b> · à environ 20 km</li>
+      </ul>
+    </div>
+    <figure class="zoomable" tabindex="0" role="button" aria-label="Agrandir la carte"><img src="docs/carte-vallee-rhone.jpg" alt="Carte de la Vallée du Rhône situant le Domaine Maître Curnier à Vacqueyras" width="1800" height="1800" loading="lazy"><figcaption class="zhint">⤢ Agrandir la carte</figcaption></figure>
+  </section>
+
+  <nav class="filters" aria-label="Filtrer les fiches">
+    <span>Afficher :</span>
+    <button type="button" id="f-all" data-f="all" aria-pressed="true">Tous</button>
+    <button type="button" id="f-rouge" data-f="rouge" aria-pressed="false">Rouges</button>
+    <button type="button" id="f-rose" data-f="rose" aria-pressed="false">Rosé</button>
+    <button type="button" id="f-blanc" data-f="blanc" aria-pressed="false">Blanc</button>
+    <button type="button" id="f-doux" data-f="doux" aria-pressed="false">Vin doux</button>
+    <button type="button" id="f-bulles" data-f="bulles" aria-pressed="false">Pétillant</button>
+  </nav>
+
+  <main class="fiches">
+<article class="fiche" data-type="rouge" id="antan">
+  <header class="f-head"><h2><span>AOP Vacqueyras Rouge —</span> <span>Cuvée d’Antan</span></h2><p class="sub">Le prestige et la mémoire des vieilles vignes</p><span class="badge b-rouge">Vin rouge · 2023</span><a class="fdl" href="docs/fiche-antan.pdf" target="_blank" rel="noopener" data-file="Fiche_technique_Cuvee_d_Antan_-_Domaine_Maitre_Curnier.pdf">Télécharger la fiche (PDF)</a></header>
+  <figure class="photo"><img src="docs/bouteille-antan.jpg" alt="Bouteille AOP Vacqueyras Rouge Cuvée d’Antan" loading="lazy"></figure>
+  <section class="blk"><h3>Assemblage & terroir</h3><p><b>Cépages :</b> 50% Grenache, 50% Syrah.<br>Vieilles vignes de 50 à 70 ans, qui apportent une concentration naturelle d’une grande rareté.</p></section>
+  <section class="blk"><h3>Vinification & élevage</h3><p>Vendange manuelle avec tri des grappes saines. Macération de 20 à 25 jours avec délestages quotidiens pour extraire les composants nobles. 10 à 15% du vin est élevé en barriques.</p></section>
+  <section class="blk"><h3>Profil dégustation</h3><p>Robe profonde grenat intense. Nez puissant et complexe dévoilant des arômes de fruits noirs mûrs, de garrigue, de cuir fin et d’épices douces. La bouche est dense, soyeuse, avec une longueur remarquable.</p></section>
+  <div class="duo"><div><h4>Service</h4><p>16°C - 17°C (Déboucher 2h avant)</p></div><div><h4>Garde</h4><p>Environ 9 ans</p></div></div>
+  <section class="blk"><h3>Accords mets & vins</h3><ul class="pictos" aria-label="Accords en bref"><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-6M12 15c-3 0-5-2-5-5V5M7 8l-3-2M7 11l-3 0M12 15c3 0 5-2 5-5V5M17 8l3-2M17 11l3 0"/></svg><span>Gibier</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13c0-4 4-7 9-7s7 3 7 6-3 6-8 6-8-1-8-5z"/><path d="M9 12c1-1.5 3-2 5-1"/><circle cx="15.5" cy="13.5" r="1.3"/></svg><span>Viande rouge</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16l9-9 9 4v6H3z"/><path d="M3 16v2h18v-1"/><circle cx="9" cy="14" r="1.2"/><circle cx="15" cy="13" r="1"/></svg><span>Fromage</span></li></ul><p>Gibiers à poil et à plume, pièces de bœuf maturées, daube provençale traditionnelle ou fromages affinés à pâte dure.</p></section>
+</article>
+<article class="fiche" data-type="rouge" id="trad">
+  <header class="f-head"><h2><span>AOP Vacqueyras Rouge —</span> <span>Tradition</span></h2><p class="sub">L’expression classique et généreuse du terroir</p><span class="badge b-rouge">Vin rouge · 2024</span><a class="fdl" href="docs/fiche-trad.pdf" target="_blank" rel="noopener" data-file="Fiche_technique_Tradition_-_Domaine_Maitre_Curnier.pdf">Télécharger la fiche (PDF)</a></header>
+  <figure class="photo"><img src="docs/bouteille-trad.jpg" alt="Bouteille AOP Vacqueyras Rouge Tradition" loading="lazy"></figure>
+  <section class="blk"><h3>Assemblage & terroir</h3><p><b>Cépages :</b> 80% Grenache, 20% Syrah.<br>Vignes âgées de 15 à 45 ans. Vendange manuelle des grappes saines, partiellement éraflée.</p></section>
+  <section class="blk"><h3>Vinification & élevage</h3><p>Cuvaison traditionnelle de 20 à 25 jours en cuves béton, avec délestages quotidiens. Fermentation démarrant entre 25 et 27°C et finissant entre 32 et 33°C.</p></section>
+  <section class="blk"><h3>Profil dégustation</h3><p>Robe rubis soutenue. Nez généreux marqué par les fruits rouges mûrs (framboise, cerise noire) et une touche délicatement poivrée. En bouche, le vin fait preuve d’un superbe équilibre entre matière et fraîcheur.</p></section>
+  <div class="duo"><div><h4>Service</h4><p>17°C (Déboucher 2h avant)</p></div><div><h4>Garde</h4><p>Jusqu’à 8 ans</p></div></div>
+  <section class="blk"><h3>Accords mets & vins</h3><ul class="pictos" aria-label="Accords en bref"><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13c0-4 4-7 9-7s7 3 7 6-3 6-8 6-8-1-8-5z"/><path d="M9 12c1-1.5 3-2 5-1"/><circle cx="15.5" cy="13.5" r="1.3"/></svg><span>Viande rouge</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16M4 14h16M8 6v12M12 6v12M16 6v12"/></svg><span>Grillades</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16l9-9 9 4v6H3z"/><path d="M3 16v2h18v-1"/><circle cx="9" cy="14" r="1.2"/><circle cx="15" cy="13" r="1"/></svg><span>Fromage</span></li></ul><p>Parfait sur un carré d’agneau aux herbes de Provence, des grillades au feu de bois, un magret de canard ou un plateau de fromages régionaux.</p></section>
+</article>
+<article class="fiche" data-type="rouge" id="conv">
+  <header class="f-head"><h2><span>AOP Vacqueyras Rouge —</span> <span>La Conviviale</span></h2><p class="sub">Souplesse, fruit et gourmandise partagée</p><span class="badge b-rouge">Vin rouge · 2025</span><a class="fdl" href="docs/fiche-conv.pdf" target="_blank" rel="noopener" data-file="Fiche_technique_La_Conviviale_-_Domaine_Maitre_Curnier.pdf">Télécharger la fiche (PDF)</a></header>
+  <figure class="photo"><img src="docs/bouteille-conv.jpg" alt="Bouteille AOP Vacqueyras Rouge La Conviviale" loading="lazy"></figure>
+  <section class="blk"><h3>Assemblage & terroir</h3><p><b>Cépages :</b> 65% Grenache, 35% Syrah.<br>Vignes de 4 à 15 ans. Vendange manuelle des grappes saines, 100% éraflée.</p></section>
+  <section class="blk"><h3>Vinification & élevage</h3><p>Cuvaison de 10 à 14 jours avec remontages quotidiens. Température maîtrisée aux alentours de 26°C afin d’extraire des arômes fruités.</p></section>
+  <section class="blk"><h3>Profil dégustation</h3><p>Robe rubis brillante. Nez gourmand et expressif de petits fruits rouges frais (fraise des bois, cerise). La bouche est ronde, fluide et très accessible, dotée de tanins souples et croquants.</p></section>
+  <div class="duo"><div><h4>Service</h4><p>17°C</p></div><div><h4>Garde</h4><p>5 ans</p></div></div>
+  <section class="blk"><h3>Accords mets & vins</h3><ul class="pictos" aria-label="Accords en bref"><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="5.5"/><circle cx="8" cy="10.5" r=".8" fill="currentColor"/><circle cx="10.5" cy="13" r=".8" fill="currentColor"/><circle cx="7.5" cy="13.8" r=".6" fill="currentColor"/><path d="M14 9.5h6v5h-6"/></svg><span>Charcuterie</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16M4 14h16M8 6v12M12 6v12M16 6v12"/></svg><span>Grillades</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13c0-4 4-7 9-7s7 3 7 6-3 6-8 6-8-1-8-5z"/><path d="M9 12c1-1.5 3-2 5-1"/><circle cx="15.5" cy="13.5" r="1.3"/></svg><span>Viande rouge</span></li></ul><p>Plats conviviaux, planches de charcuteries fines, rosbif, pizzas artisanales, grillades d’été et buffets champêtres.</p></section>
+</article>
+<article class="fiche" data-type="rouge" id="cdr">
+  <header class="f-head"><h2><span>AOP Côtes du Rhône</span> <span>Rouge</span></h2><p class="sub">Le plaisir fruité et épicé au quotidien</p><span class="badge b-rouge">Vin rouge · 2025</span><a class="fdl" href="docs/fiche-cdr.pdf" target="_blank" rel="noopener" data-file="Fiche_technique_Cotes_du_Rhone_-_Domaine_Maitre_Curnier.pdf">Télécharger la fiche (PDF)</a></header>
+  <figure class="photo"><img src="docs/bouteille-cdr.jpg" alt="Bouteille AOP Côtes du Rhône Rouge" loading="lazy"></figure>
+  <section class="blk"><h3>Assemblage & terroir</h3><p><b>Cépages :</b> 50% Grenache, 30% Cinsault, 15% Carignan, 5% Mourvèdre.<br>Vignes de 10 à 60 ans. Vendange manuelle des grappes saines.</p></section>
+  <section class="blk"><h3>Vinification & élevage</h3><p>Cuvaison de 10 à 14 jours avec remontages quotidiens, à une température d’environ 27°C, pour extraire la couleur et le fruit.</p></section>
+  <section class="blk"><h3>Profil dégustation</h3><p>Robe rubis brillante. Nez très engageant de mûre, de prunelle et d’épices douces. La bouche est souple, bien fruitée, facile d’accès avec une finale délicatement relevée.</p></section>
+  <div class="duo"><div><h4>Service</h4><p>15°C (Déboucher 2h avant)</p></div><div><h4>Garde</h4><p>Jusqu’à 3 ans</p></div></div>
+  <section class="blk"><h3>Accords mets & vins</h3><ul class="pictos" aria-label="Accords en bref"><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="5.5"/><circle cx="8" cy="10.5" r=".8" fill="currentColor"/><circle cx="10.5" cy="13" r=".8" fill="currentColor"/><circle cx="7.5" cy="13.8" r=".6" fill="currentColor"/><path d="M14 9.5h6v5h-6"/></svg><span>Charcuterie</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4.5a4.5 4.5 0 0 1 0 9l-3 3"/><path d="M14.5 4.5a4.5 4.5 0 0 0-4.4 5.4l-3 3"/><path d="M7 13.5l-2.5 2.5a1.6 1.6 0 1 0 2.3 2.2 1.6 1.6 0 1 0 2.2 2.3L11.5 16.5"/></svg><span>Volaille</span></li></ul><p>Charcuterie artisanale, viandes blanches (poulet rôti, sauté de porc), gratins provençaux et cuisine simple du quotidien.</p></section>
+</article>
+<article class="fiche" data-type="rose" id="rose">
+  <header class="f-head"><h2><span>AOP Vacqueyras</span> <span>Rosé</span></h2><p class="sub">L’élégance gastronomique d’un grand rosé du Rhône</p><span class="badge b-rose">Vin rosé</span><a class="fdl" href="docs/fiche-rose.pdf" target="_blank" rel="noopener" data-file="Fiche_technique_Vacqueyras_rose_-_Domaine_Maitre_Curnier.pdf">Télécharger la fiche (PDF)</a></header>
+  <figure class="photo"><img src="docs/bouteille-rose.jpg" alt="Bouteille AOP Vacqueyras Rosé" loading="lazy"></figure>
+  <section class="blk"><h3>Assemblage & terroir</h3><p><b>Cépages :</b> 50% Grenache, 30% Cinsault, 20% Syrah.<br>Vignes de 4 à 15 ans. Vendange manuelle, uniquement le matin, en début de maturité, des seules grappes saines.</p></section>
+  <section class="blk"><h3>Vinification & élevage</h3><p>Débourbage du jus, puis fermentation maintenue entre 18 et 20°C en cuves émaillées.</p></section>
+  <section class="blk"><h3>Profil dégustation</h3><p>Robe très fraîche d’un rose soutenu. Le nez révèle des arômes très intenses de groseille, de grenade et de petits fruits rouges. La bouche est ample, charnue et rafraîchissante.</p></section>
+  <div class="duo"><div><h4>Service</h4><p>10°C - 12°C</p></div><div><h4>Garde</h4><p>À déguster sous 2 ans</p></div></div>
+  <section class="blk"><h3>Accords mets & vins</h3><ul class="pictos" aria-label="Accords en bref"><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8l-1 6a3 3 0 0 1-6 0z"/><path d="M12 13v6M9 20h6"/><path d="M18 3l-4 7"/><circle cx="18.5" cy="3.5" r="1.2"/></svg><span>Apéritif</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c3-4 7-5 11-3l5-3v12l-5-3c-4 2-8 1-11-3z"/><circle cx="8" cy="11" r=".9" fill="currentColor"/></svg><span>Poisson</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5c-1-1.5 0-3 1.5-3"/><path d="M15 5c2 0 3.5 1.5 3 4-1 5-6 11-12 12 3-3 4-7 4-11 0-3 2-5 5-5z"/></svg><span>Cuisine épicée</span></li></ul><p>Idéal à l’apéritif, avec la cuisine provençale (petits farcis, bouillabaisse), les salades estivales composées ou la cuisine asiatique épicée.</p></section>
+</article>
+<article class="fiche" data-type="blanc" id="blanc">
+  <header class="f-head"><h2><span>AOP Vacqueyras</span> <span>Blanc</span></h2><p class="sub">Rare, complexe et d’un beau volume en bouche</p><span class="badge b-blanc">Vin blanc · 2025</span><a class="fdl" href="docs/fiche-blanc.pdf" target="_blank" rel="noopener" data-file="Fiche_technique_Vacqueyras_blanc_-_Domaine_Maitre_Curnier.pdf">Télécharger la fiche (PDF)</a></header>
+  <figure class="photo"><img src="docs/bouteille-blanc.jpg" alt="Bouteille AOP Vacqueyras Blanc" loading="lazy"></figure>
+  <section class="blk"><h3>Assemblage & terroir</h3><p><b>Cépages :</b> 35% Marsanne, 35% Viognier, 30% Clairette.<br>Vignes de 10 à 12 ans. Vendange manuelle, uniquement le matin, pour préserver la fraîcheur aromatique.</p></section>
+  <section class="blk"><h3>Vinification & élevage</h3><p>Débourbage, puis fermentation maintenue entre 18 et 20°C en cuve inox.</p></section>
+  <section class="blk"><h3>Profil dégustation</h3><p>Robe jaune or paille brillante. Nez complexe de fleurs blanches, de pêche de vigne, d’agrumes frais et de chèvrefeuille. Bouche généreuse, dotée d’une texture suave équilibrée par une belle tension minérale.</p></section>
+  <div class="duo"><div><h4>Service</h4><p>12°C</p></div><div><h4>Garde</h4><p>4 ans</p></div></div>
+  <section class="blk"><h3>Accords mets & vins</h3><ul class="pictos" aria-label="Accords en bref"><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c3-4 7-5 11-3l5-3v12l-5-3c-4 2-8 1-11-3z"/><circle cx="8" cy="11" r=".9" fill="currentColor"/></svg><span>Poisson</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4.5a4.5 4.5 0 0 1 0 9l-3 3"/><path d="M14.5 4.5a4.5 4.5 0 0 0-4.4 5.4l-3 3"/><path d="M7 13.5l-2.5 2.5a1.6 1.6 0 1 0 2.3 2.2 1.6 1.6 0 1 0 2.2 2.3L11.5 16.5"/></svg><span>Volaille</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16l9-9 9 4v6H3z"/><path d="M3 16v2h18v-1"/><circle cx="9" cy="14" r="1.2"/><circle cx="15" cy="13" r="1"/></svg><span>Fromage</span></li></ul><p>Poissons grillés ou en sauce onctueuse, volailles à la crème, risotto aux gambas et fromages de chèvre affinés de la région.</p></section>
+</article>
+<article class="fiche" data-type="doux" id="muscat">
+  <header class="f-head"><h2><span>VDN Muscat de</span> <span>Beaumes-de-Venise</span></h2><p class="sub">Vin Doux Naturel — Nectar aromatique et solaire</p><span class="badge b-doux">Vin doux naturel · 2025</span><a class="fdl" href="docs/fiche-muscat.pdf" target="_blank" rel="noopener" data-file="Fiche_technique_Muscat_de_Beaumes-de-Venise_-_Domaine_Maitre_Curnier.pdf">Télécharger la fiche (PDF)</a></header>
+  <figure class="photo"><img src="docs/bouteille-muscat.jpg" alt="Bouteille VDN Muscat de Beaumes-de-Venise" loading="lazy"></figure>
+  <section class="blk"><h3>Assemblage & terroir</h3><p><b>Cépage :</b> 100% Muscat à petits grains.<br>Vignes de 12 à 15 ans. Vendange manuelle, uniquement le matin, de raisins sains récoltés à surmaturité (15% vol.).</p></section>
+  <section class="blk"><h3>Vinification & élevage</h3><p>Pressurage dès l’arrivée en cave. Fermentation en cuve avec levures indigènes à basse température (13-14°C), arrêtée par mutage à l’alcool à la densité voulue pour conserver la douceur naturelle du raisin.</p></section>
+  <section class="blk"><h3>Profil dégustation</h3><p>Robe or liquide aux reflets ambrés. Nez intense d’agrumes confits, de miel de fleur, d’abricot sec et de notes florales. Bouche riche et suave mais préservée de toute lourdeur par une acidité noble.</p></section>
+  <div class="duo"><div><h4>Service</h4><p>10°C - 12°C</p></div><div><h4>Garde</h4><p>5 ans</p></div></div>
+  <section class="blk"><h3>Accords mets & vins</h3><ul class="pictos" aria-label="Accords en bref"><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16v-6L4 9z"/><path d="M4 12l16 0"/><path d="M12 6.5c0-1.5 1-2.5 2-2.5"/></svg><span>Dessert</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16l9-9 9 4v6H3z"/><path d="M3 16v2h18v-1"/><circle cx="9" cy="14" r="1.2"/><circle cx="15" cy="13" r="1"/></svg><span>Fromage</span></li></ul><p>Foie gras poêlé ou en terrine, melon de Cavaillon, tarte au citron meringuée, desserts aux fruits exotiques et fromages à pâte persillée (Roquefort, Bleu).</p></section>
+</article>
+<article class="fiche" data-type="bulles" id="perles">
+  <header class="f-head"><h2><span>Perles de Rêve —</span> <span>Méthode Traditionnelle</span></h2><p class="sub">Fines bulles festives & vivantes</p><span class="badge b-bulles">Boisson pétillante</span><a class="fdl" href="docs/fiche-perles.pdf" target="_blank" rel="noopener" data-file="Fiche_technique_Perles_de_Reve_-_Domaine_Maitre_Curnier.pdf">Télécharger la fiche (PDF)</a></header>
+  <figure class="photo"><img src="docs/bouteille-perles.jpg" alt="Bouteille Perles de Rêve Méthode Traditionnelle" loading="lazy"></figure>
+  <section class="blk"><h3>Élaboration & méthode</h3><p><b>Elaboration :</b> Méthode Traditionnelle du domaine.<br>Seconde fermentation en bouteille suivie d’un élevage sur lattes assurant la finesse de l’effervescence et la complexité des arômes.</p></section>
+  <section class="blk"><h3>Vinification & élevage</h3><p>Sélection rigoureuse des jus de presse pour garantir vivacité et clarté. Prise de mousse lente en cave fraîche permettant l’obtention de bulles d’une grande délicatesse.</p></section>
+  <section class="blk"><h3>Profil dégustation</h3><p>Robe or clair brillant animée par de très fines bulles régulières. Nez expressif de pomme fraîche, de brioche légère et de fleurs de verger. La bouche est légère, vivante, agréablement fruitée et désaltérante.</p></section>
+  <div class="duo"><div><h4>Service</h4><p>6°C - 8°C</p></div><div><h4>Moment</h4><p>Apéritif & Fêtes</p></div></div>
+  <section class="blk"><h3>Accords mets & vins</h3><ul class="pictos" aria-label="Accords en bref"><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8l-1 6a3 3 0 0 1-6 0z"/><path d="M12 13v6M9 20h6"/><path d="M18 3l-4 7"/><circle cx="18.5" cy="3.5" r="1.2"/></svg><span>Apéritif</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c3-4 7-5 11-3l5-3v12l-5-3c-4 2-8 1-11-3z"/><circle cx="8" cy="11" r=".9" fill="currentColor"/></svg><span>Poisson</span></li><li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16v-6L4 9z"/><path d="M4 12l16 0"/><path d="M12 6.5c0-1.5 1-2.5 2-2.5"/></svg><span>Dessert</span></li></ul><p>Idéal pour les cocktails, les réceptions, les pièces cocktail salées, les toast de saumon ou en accompagnement de desserts légers aux fruits.</p></section>
+</article>
+  </main>
+  </div>
+
+  <footer class="ft"><div class="ft-name">Domaine Maître Curnier</div><div class="ft-line">EARL Maître Curnier · 84190 Vacqueyras · Bénédicte &amp; André Viougeas, vignerons</div><div class="ft-line ft-web"><a href="https://maitrecurnier.fr/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>maitrecurnier.fr</a><a href="https://www.facebook.com/DomaineMaitreCurnier/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="currentColor"><path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.6V21z"/></svg>Facebook</a><a href="https://www.facebook.com/100057653012609/videos/pcb.1226462199285536/775391915357295" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>Vidéo</a></div><div class="ft-line">Dégustations en Belgique : <a class="mail" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=degustations.maitrecurnier@gmail.com&amp;su=Domaine%20Ma%C3%AEtre%20Curnier%20%E2%80%94%20Question" target="_blank" rel="noopener">degustations.maitrecurnier@gmail.com</a></div><div class="ft-legal">L’abus d’alcool est dangereux pour la santé, à consommer avec modération.</div><small class="credits">Photos de fond des bouteilles : Wikimedia Commons — V. Pagnier (domaine public), K. Würth (CC0), M. Mallen (CC BY 2.0), קרלוס הגדול et AlineRockstud68 (CC BY-SA 4.0). Dentelles et Mont Ventoux : V. Pagnier (domaine public).</small><a class="secret" href="#documents">Espace réservé</a></footer>
+  <button type="button" class="totop" aria-label="Revenir en haut">↑</button>
+</div>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.filters button');
+  var cards=document.querySelectorAll('.fiche');
+  function apply(f){
+    btns.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.f===f))});
+    cards.forEach(function(c){c.hidden=!(f==='all'||c.dataset.type===f)});
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){apply(b.dataset.f)})});
+})();
+
+/* ---------- Bons de commande ---------- */
+(function(){
+  var VINS=[
+    ['antan','AOP Vacqueyras Rouge','Cuvée d’Antan','2023','10,25','15,50'],
+    ['trad','AOP Vacqueyras Rouge','Tradition','2024','8,60','13,00'],
+    ['tradmag','AOP Vacqueyras Rouge','Tradition · magnum 1,5 L','2024','20,00','30,00'],
+    ['conv','AOP Vacqueyras Rouge','La Conviviale','2025','','11,00'],
+    ['cdr','AOP Côtes du Rhône Rouge','','2025','5,30','8,00'],
+    ['rose','AOP Vacqueyras Rosé','','',''],
+    ['blanc','AOP Vacqueyras Blanc','','2025','8,60','13,00'],
+    ['muscat','VDN Muscat de Beaumes-de-Venise','Vin Doux Naturel','2025','10,25','15,50'],
+    ['perles','Perles de Rêve','Méthode Traditionnelle','','']
+  ];
+  var eur=new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'});
+  function num(v){v=String(v||'').replace(/\s/g,'').replace(',','.');var n=parseFloat(v);return isFinite(n)?n:0}
+  function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function orderNo(p){var d=today().replace(/-/g,'');return p+'-'+d+'-'+String(Math.floor(Math.random()*900)+100)}
+
+  var CFG={
+    'commande-pro':{p:'pro',title:'Bon de commande',who:'Professionnels — CHR, cavistes, épiceries fines, revendeurs',ht:true,
+      client:[['Raison sociale','societe','full'],['Nom du contact','contact'],['Fonction','fonction'],['Téléphone','tel'],['E-mail','mail'],['N° SIRET','siret'],['N° TVA intracommunautaire','tva']],
+      conds:['Prix unitaires exprimés en € HT, départ domaine, par bouteille de 75 cl (magnum : 1,5 L). La Conviviale : prix sur demande.','TVA applicable : 20 %.','Règlement par virement, en espèces ou à réception de facture.','Frais de port offerts lorsque la livraison peut être jointe à une livraison du domaine en Belgique ; commandes urgentes étudiées au cas par cas.','Les marchandises voyagent aux risques et périls du destinataire. Vérifiez les colis à la livraison et notez toute réserve sur le bon du transporteur.','Tarifs valables sous réserve de disponibilité des millésimes.'],
+      pay:['Virement bancaire','Espèces','À réception de facture']},
+    'commande-particulier':{p:'part',title:'Bon de commande',who:'Particuliers',ht:false,
+      client:[['Nom et prénom','nom','full'],['Téléphone','tel'],['E-mail','mail']],
+      conds:['Prix unitaires exprimés en € TTC, par bouteille de 75 cl.','Commande traitée à réception du règlement.','Frais de port offerts lorsque la livraison peut être jointe à une livraison du domaine en Belgique ; commandes urgentes étudiées au cas par cas.','Vérifiez les colis à la livraison et notez toute réserve auprès du transporteur.','Tarifs valables sous réserve de disponibilité des millésimes.'],
+      pay:['Virement bancaire','Carte bancaire','Espèces']}
+  };
+
+  function field(l,id,cls,type){return '<label class="'+(cls||'')+'" for="'+id+'">'+l+'<input id="'+id+'" name="'+id+'" type="'+(type||'text')+'" autocomplete="off"></label>'}
+
+  function render(key){
+    var c=CFG[key],p=c.p,unit=c.ht?'HT':'TTC';
+    var rows=VINS.map(function(v){var k=p+'-'+v[0];return '<tr data-row="'+k+'">'+
+      '<td><span class="n">'+v[1]+'</span>'+(v[2]?'<span class="t">'+v[2]+'</span>':'')+'</td>'+
+      '<td><input class="w-mil" id="'+k+'-mil" inputmode="numeric" aria-label="Millésime '+v[1]+' '+v[2]+'" placeholder="20.." value="'+v[3]+'"></td>'+
+      '<td><input class="w-prix" id="'+k+'-prix" inputmode="decimal" aria-label="Prix unitaire '+unit+'" placeholder="'+(c.ht&&v[0]==='conv'?'sur demande':'0,00')+'"'+((c.ht?v[4]:v[5])?' value="'+(c.ht?v[4]:v[5])+'"':'')+'></td>'+
+      '<td><input class="w-qte" id="'+k+'-bt" inputmode="numeric" aria-label="Bouteilles" placeholder="0"></td>'+
+      '<td><input class="w-qte" id="'+k+'-ct" inputmode="numeric" aria-label="Cartons de 6" placeholder="0"></td>'+
+      '<td class="num" data-tot-bt>0</td><td class="num" data-tot-mt>'+eur.format(0)+'</td></tr>'}).join('');
+    var totaux=c.ht
+      ? '<div><span>Total bouteilles</span><span id="'+p+'-nb">0</span></div><div><span>Total HT</span><span id="'+p+'-ht">'+eur.format(0)+'</span></div><div><span>Frais de port HT</span><input id="'+p+'-port" inputmode="decimal" placeholder="0,00" aria-label="Frais de port HT"></div><div><span>TVA 20 %</span><span id="'+p+'-tva">'+eur.format(0)+'</span></div><div class="grand"><span>Total TTC</span><span id="'+p+'-ttc">'+eur.format(0)+'</span></div>'
+      : '<div><span>Total bouteilles</span><span id="'+p+'-nb">0</span></div><div><span>Sous-total TTC</span><span id="'+p+'-ht">'+eur.format(0)+'</span></div><div><span>Frais de port TTC</span><input id="'+p+'-port" inputmode="decimal" placeholder="0,00" aria-label="Frais de port TTC"></div><div class="grand"><span>Total à régler TTC</span><span id="'+p+'-ttc">'+eur.format(0)+'</span></div>';
+    var html='<form class="bon" id="form-'+p+'" novalidate>'+
+      '<div class="bon-top"><div><h2>'+c.title+'</h2><p class="who">'+c.who+'</p></div>'+
+      '<div class="domaine"><b>DOMAINE MAÎTRE CURNIER</b><br>EARL Maître Curnier · 84190 Vacqueyras<br>Bénédicte &amp; André Viougeas, vignerons<br>Tél. 04 90 65 47 10 · maitrecurnier.fr</div></div>'+
+      '<div class="meta">'+field('N° de commande',p+'-num')+field('Date de commande',p+'-date','', 'date')+field('Date de livraison souhaitée',p+'-livr','','date')+field('N° client (si compte existant)',p+'-cli')+'</div>'+
+      '<div class="grp"><fieldset><legend>Client</legend>'+c.client.map(function(f){return field(f[0],p+'-'+f[1],f[2])}).join('')+'</fieldset>'+
+      '<fieldset><legend>Livraison</legend><label class="full" for="'+p+'-mode">Mode<select id="'+p+'-mode"><option>Livraison à l’adresse ci-dessous</option><option>Transporteur</option></select></label>'+
+        field('Adresse',p+'-adr','full')+field('Code postal',p+'-cp')+field('Ville',p+'-ville')+field('Pays',p+'-pays')+field('Horaires / accès',p+'-hor')+
+        (c.ht?'<label class="full" for="'+p+'-fact">Adresse de facturation (si différente)<input id="'+p+'-fact"></label>':'')+'</fieldset></div>'+
+      '<div class="tbl"><table><thead><tr><th>Vin</th><th>Millésime</th><th>Prix unit. '+unit+'</th><th>Bouteilles</th><th>Cartons ×6</th><th class="num">Total btl.</th><th class="num">Montant '+unit+'</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+      '<div class="bottom"><div class="conds"><h3>Conditions</h3><ul>'+c.conds.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>'+
+        '<label for="'+p+'-pay">Mode de règlement<select id="'+p+'-pay">'+c.pay.map(function(x){return '<option>'+x+'</option>'}).join('')+'</select></label>'+
+        '<label for="'+p+'-rem">Remarques<textarea id="'+p+'-rem"></textarea></label></div>'+
+        '<div class="totaux">'+totaux+'</div></div>'+
+      '<div class="consent"><label class="cbox" for="'+p+'-optin"><input type="checkbox" id="'+p+'-optin"> J’accepte de recevoir par e-mail les nouveautés, tarifs et invitations du domaine (désinscription possible à tout moment).</label>'+
+      '<p class="hint">Vos coordonnées servent à traiter cette commande et ne sont jamais cédées à des tiers. Vous pouvez les consulter, les corriger ou demander leur suppression à l’EARL Maître Curnier (tél. 04 90 65 47 10).</p></div>'+
+      '<div class="sign"><div class="box">Date et signature du client'+(c.ht?' — cachet de l’entreprise':'')+'</div><div class="box">Réservé au domaine — commande reçue le / expédiée le</div></div>'+
+      (c.ht?'':'<p class="legal">La vente d’alcool est interdite aux mineurs de moins de 18 ans. En validant ce bon, vous certifiez être majeur. L’abus d’alcool est dangereux pour la santé, à consommer avec modération.</p>')+
+      (c.ht?'<p class="legal">L’abus d’alcool est dangereux pour la santé, à consommer avec modération.</p>':'')+
+      '<div class="actions"><button type="button" data-print>Imprimer / enregistrer en PDF</button><button type="button" data-reset>Vider le bon</button><small>Ce que vous saisissez reste enregistré dans ce navigateur.</small></div>'+
+      '</form>';
+    var host=document.getElementById('v-'+key); host.innerHTML=html;
+    var form=host.querySelector('form');
+    var SK='mc-bon2-'+p;
+    function save(){try{var o={};form.querySelectorAll('input,select,textarea').forEach(function(e){o[e.id]=e.type==='checkbox'?e.checked:e.value});localStorage.setItem(SK,JSON.stringify(o))}catch(e){}}
+    function calc(){var nb=0,sum=0;
+      form.querySelectorAll('tr[data-row]').forEach(function(r){var k=r.dataset.row;
+        var q=num(form.querySelector('#'+k+'-bt').value)+6*num(form.querySelector('#'+k+'-ct').value);
+        var m=q*num(form.querySelector('#'+k+'-prix').value);nb+=q;sum+=m;
+        r.querySelector('[data-tot-bt]').textContent=q;r.querySelector('[data-tot-mt]').textContent=eur.format(m)});
+      var port=num(form.querySelector('#'+p+'-port').value);
+      form.querySelector('#'+p+'-nb').textContent=nb;form.querySelector('#'+p+'-ht').textContent=eur.format(sum);
+      if(c.ht){var base=sum+port,tva=base*0.2;form.querySelector('#'+p+'-tva').textContent=eur.format(tva);form.querySelector('#'+p+'-ttc').textContent=eur.format(base+tva)}
+      else form.querySelector('#'+p+'-ttc').textContent=eur.format(sum+port)}
+    function init(){form.querySelector('#'+p+'-num').value=orderNo('MC-'+(c.ht?'PRO':'PART'));form.querySelector('#'+p+'-date').value=today()}
+    var saved=null;try{saved=JSON.parse(localStorage.getItem(SK)||'null')}catch(e){}
+    if(saved){Object.keys(saved).forEach(function(id){var e=form.querySelector('#'+id);if(e){if(e.type==='checkbox')e.checked=!!saved[id];else e.value=saved[id]}})}else init();
+    form.addEventListener('input',function(){calc();save()});
+    function norm(t){var r=t&&t.closest&&t.closest('tr[data-row]');if(!r||!/-(bt|ct)$/.test(t.id))return;var k=r.dataset.row;
+      var bt=form.querySelector('#'+k+'-bt'),ct=form.querySelector('#'+k+'-ct');
+      /* Bouteilles saisies = nouveau total (remplace) ; cartons saisis = nombre de cartons, les bouteilles restent */
+      if(/-ct$/.test(t.id)){var n=Math.max(0,Math.round(num(ct.value)));ct.value=n?String(n):'';return}
+      var tot=Math.max(0,Math.round(num(bt.value)));
+      var c6=Math.floor(tot/6),b=tot%6;ct.value=c6?String(c6):'';bt.value=b?String(b):''}
+    form.addEventListener('change',function(e){norm(e.target);calc();save()});
+    form.addEventListener('submit',function(e){e.preventDefault()});
+    form.querySelector('[data-print]').addEventListener('click',function(){try{document.body.classList.add('print-bon');window.print()}catch(e){}setTimeout(function(){document.body.classList.remove('print-bon')},1500)});
+    form.querySelector('[data-reset]').addEventListener('click',function(){form.querySelectorAll('input,textarea').forEach(function(e){if(e.type==='checkbox')e.checked=false;else e.value=''});form.querySelectorAll('select').forEach(function(s){s.selectedIndex=0});init();calc();save()});
+    calc();
+  }
+  render('commande-pro');render('commande-particulier');
+
+  /* Espace documents */
+  var DOCS=[{"title": "Dossier de vente", "aud": "Interne", "desc": "Carte d’identité du domaine, argumentaire par cuvée, comparatif, millésimes", "pdf": "docs/dossier.pdf", "file": "Dossier_de_vente_-_Domaine_Maitre_Curnier.pdf", "pages": ["docs/dossier-1.jpg", "docs/dossier-2.jpg", "docs/dossier-3.jpg", "docs/dossier-4.jpg", "docs/dossier-5.jpg"]},{"title": "3 vins pour votre carte", "aud": "Restaurateurs", "desc": "One-pager à laisser après une visite", "pdf": "docs/onepager.pdf", "file": "One-pager_restaurateurs_-_Domaine_Maitre_Curnier.pdf", "pages": ["docs/onepager-1.jpg"]}, {"title": "Fascicule fiches techniques", "aud": "Restaurateurs · Particuliers", "desc": "Les 8 vins, format paysage", "pdf": "docs/fascicule.pdf", "file": "Domaine_Maitre_Curnier_-_Fascicule_fiches_techniques_A4_paysage.pdf", "pages": ["docs/fascicule-1.jpg", "docs/fascicule-2.jpg"]}, {"title": "Fiches techniques détaillées", "aud": "Restaurateurs · Particuliers", "desc": "Présentation du domaine et une fiche par vin", "pdf": "docs/fiches.pdf", "file": "Domaine_Maitre_Curnier_-_Fiches_Techniques.pdf", "pages": ["docs/fiches-1.jpg", "docs/fiches-2.jpg", "docs/fiches-3.jpg", "docs/fiches-4.jpg", "docs/fiches-5.jpg", "docs/fiches-6.jpg", "docs/fiches-7.jpg", "docs/fiches-8.jpg", "docs/fiches-9.jpg"]}, {"title": "Bon de commande Professionnels", "aud": "Restaurateurs", "desc": "Prix HT, à remplir sur place", "pdf": "docs/bon-pro.pdf", "file": "Bon_de_commande_Professionnels_-_Domaine_Maitre_Curnier.pdf", "pages": ["docs/bon-pro-1.jpg"]}, {"title": "Bon de commande Particuliers", "aud": "Particuliers", "desc": "Prix TTC, à remplir sur place", "pdf": "docs/bon-part.pdf", "file": "Bon_de_commande_Particuliers_-_Domaine_Maitre_Curnier.pdf", "pages": ["docs/bon-part-1.jpg"]}, {"title": "Invitation soirée dégustation", "aud": "Hôtes · Invités", "desc": "À envoyer aux hôtes, à remplir à l’écran", "pdf": "docs/invitation.pdf", "file": "Invitation_Soiree_degustation_-_Domaine_Maitre_Curnier.pdf", "pages": ["docs/invitation-1.jpg"]}, {"title": "Fiche de dégustation", "aud": "Invités", "desc": "Recto-verso : notes, goûts, commande, coordonnées", "pdf": "docs/fiche-deg.pdf", "file": "Fiche_de_degustation_-_Domaine_Maitre_Curnier.pdf", "pages": ["docs/fiche-deg-1.jpg", "docs/fiche-deg-2.jpg"]}, {"title": "Guide pour les hôtes", "aud": "Hôtes", "desc": "Déroulement de la soirée et préparatifs", "pdf": "docs/guide.pdf", "file": "Guide_hotes_soiree_degustation_-_Domaine_Maitre_Curnier.pdf", "pages": ["docs/guide-1.jpg"]}, {"title": "Script de visite restaurateur", "aud": "Interne", "desc": "Pour vous : accroche, questions, objections", "pdf": "docs/script.pdf", "file": "Script_de_visite_restaurateur_-_Domaine_Maitre_Curnier.pdf", "pages": ["docs/script-1.jpg", "docs/script-2.jpg"]}];
+  var COURS=[{"title": "Cours 1 · Les bases de l’œnologie", "aud": "Cours", "desc": "Du raisin au vin, cépages, dégustation, étiquette, accords, service", "pdf": "docs/cours1.pdf", "file": "Oenologie_cours_1_les_bases.pdf", "pages": ["docs/cours1-1.jpg", "docs/cours1-2.jpg", "docs/cours1-3.jpg", "docs/cours1-4.jpg", "docs/cours1-5.jpg"]}, {"title": "Cours 2 · Vers la maîtrise", "aud": "Cours", "desc": "Régions du monde, défauts, viticulture, sulfites, vinification, parler du vin", "pdf": "docs/cours2.pdf", "file": "Oenologie_cours_2_vers_la_maitrise.pdf", "pages": ["docs/cours2-1.jpg", "docs/cours2-2.jpg", "docs/cours2-3.jpg", "docs/cours2-4.jpg", "docs/cours2-5.jpg", "docs/cours2-6.jpg", "docs/cours2-7.jpg", "docs/cours2-8.jpg", "docs/cours2-9.jpg", "docs/cours2-10.jpg", "docs/cours2-11.jpg"]}, {"title": "Cours 3 · Approfondir et maîtriser le métier", "aud": "Cours", "desc": "Structure, classements, styles spéciaux, régions, dégustation pro, métier, quiz", "pdf": "docs/cours3.pdf", "file": "Oenologie_cours_3_approfondir.pdf", "pages": ["docs/cours3-1.jpg", "docs/cours3-2.jpg", "docs/cours3-3.jpg", "docs/cours3-4.jpg", "docs/cours3-5.jpg", "docs/cours3-6.jpg", "docs/cours3-7.jpg", "docs/cours3-8.jpg", "docs/cours3-9.jpg", "docs/cours3-10.jpg", "docs/cours3-11.jpg", "docs/cours3-12.jpg", "docs/cours3-13.jpg", "docs/cours3-14.jpg", "docs/cours3-15.jpg", "docs/cours3-16.jpg", "docs/cours3-17.jpg", "docs/cours3-18.jpg", "docs/cours3-19.jpg"]}, {"title": "Cours 4 · Expertise et projet concret", "aud": "Cours", "desc": "Glossaire, aveugle, monographies, accords, autres boissons, créer son activité", "pdf": "docs/cours4.pdf", "file": "Oenologie_cours_4_expertise.pdf", "pages": ["docs/cours4-1.jpg", "docs/cours4-2.jpg", "docs/cours4-3.jpg", "docs/cours4-4.jpg", "docs/cours4-5.jpg", "docs/cours4-6.jpg", "docs/cours4-7.jpg", "docs/cours4-8.jpg", "docs/cours4-9.jpg", "docs/cours4-10.jpg", "docs/cours4-11.jpg", "docs/cours4-12.jpg", "docs/cours4-13.jpg", "docs/cours4-14.jpg", "docs/cours4-15.jpg", "docs/cours4-16.jpg", "docs/cours4-17.jpg", "docs/cours4-18.jpg", "docs/cours4-19.jpg", "docs/cours4-20.jpg", "docs/cours4-21.jpg", "docs/cours4-22.jpg", "docs/cours4-23.jpg", "docs/cours4-24.jpg", "docs/cours4-25.jpg", "docs/cours4-26.jpg"]}, {"title": "Cours 5 · Projet Vacqueyras", "aud": "Cours", "desc": "L’appellation, argumentaire, outils, plan d’achat, bio, Ardennes, œnotourisme", "pdf": "docs/cours5.pdf", "file": "Oenologie_cours_5_projet_Vacqueyras.pdf", "pages": ["docs/cours5-1.jpg", "docs/cours5-2.jpg", "docs/cours5-3.jpg", "docs/cours5-4.jpg", "docs/cours5-5.jpg", "docs/cours5-6.jpg", "docs/cours5-7.jpg", "docs/cours5-8.jpg", "docs/cours5-9.jpg", "docs/cours5-10.jpg", "docs/cours5-11.jpg", "docs/cours5-12.jpg", "docs/cours5-13.jpg", "docs/cours5-14.jpg", "docs/cours5-15.jpg", "docs/cours5-16.jpg", "docs/cours5-17.jpg", "docs/cours5-18.jpg", "docs/cours5-19.jpg"]}, {"title": "Cours 6 · Les dérivés du vin", "aud": "Cours", "desc": "Mutés, VDN, porto, xérès, madère, mistelles, vermouth, eaux-de-vie, cocktails", "pdf": "docs/cours6.pdf", "file": "Oenologie_cours_6_les_derives_du_vin.pdf", "pages": ["docs/cours6-1.jpg", "docs/cours6-2.jpg", "docs/cours6-3.jpg", "docs/cours6-4.jpg", "docs/cours6-5.jpg", "docs/cours6-6.jpg", "docs/cours6-7.jpg"]}];
+  var VP=[{"title": "Fiches vin & plat", "aud": "Interne · Restaurateurs", "desc": "Accord signature, autres accords, touche belge, à éviter, le mot pour le client et récapitulatif", "pdf": "docs/vinplat.pdf", "file": "Fiches_vin_et_plat_-_Domaine_Maitre_Curnier.pdf", "pages": ["docs/vinplat-1.jpg", "docs/vinplat-2.jpg", "docs/vinplat-3.jpg", "docs/vinplat-4.jpg", "docs/vinplat-5.jpg", "docs/vinplat-6.jpg", "docs/vinplat-7.jpg", "docs/vinplat-8.jpg", "docs/vinplat-9.jpg"]}, {"title": "Visuels d’accords", "aud": "Interne · Restaurateurs · Particuliers", "desc": "Les 8 vins avec leur bouteille et une ardoise de 3 accords", "pdf": "docs/accords.pdf", "file": "Visuels_accords_-_Domaine_Maitre_Curnier.pdf", "pages": ["docs/accord-1-antan.jpg", "docs/accord-2-trad.jpg", "docs/accord-3-conv.jpg", "docs/accord-4-blanc.jpg", "docs/accord-5-rose.jpg", "docs/accord-6-cdr.jpg", "docs/accord-7-muscat.jpg", "docs/accord-8-perles.jpg"]}];
+  var ALL=DOCS.concat(COURS,VP);
+  var dl={save:function(o){var a=document.createElement('a');a.href=URL.createObjectURL(o.data);a.download=o.filename;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},4000);return Promise.resolve()}};
+  var SIGNED={};function P(p){return SIGNED[p]||''}
+  function addCard(grid,d,i){var el=document.createElement('article');el.className='doc';
+    el.innerHTML='<button type="button" class="th" aria-label="Afficher '+d.title+'"><img loading="lazy" alt="" src="'+P(d.pages[0])+'"></button><div class="b"><span class="aud'+(d.aud==='Interne'?' int':'')+'">'+d.aud+' · '+d.pages.length+' page'+(d.pages.length>1?'s':'')+'</span><h3>'+d.title+'</h3><p>'+d.desc+'</p><div class="act"><button type="button" class="v">Afficher</button><button type="button" class="d" hidden>Télécharger le PDF</button></div></div>';
+    el.querySelector('.th').addEventListener('click',function(){openV(i)});el.querySelector('.v').addEventListener('click',function(){openV(i)});
+    el.querySelector('.d').addEventListener('click',function(){save(d,this)});grid.appendChild(el)}
+  var grid=document.getElementById('docs-grid'),cgrid=document.getElementById('cours-grid');
+  var vgrid=document.getElementById('vinplat-grid'),rendered=false;
+  window.mcRenderDocs=function(map){SIGNED=map;if(rendered)return;rendered=true;
+  DOCS.forEach(function(d,i){addCard(grid,d,i)});COURS.forEach(function(d,k){addCard(cgrid,d,DOCS.length+k)});
+  VP.forEach(function(d,k){addCard(vgrid,d,DOCS.length+COURS.length+k)});
+  document.querySelectorAll('[data-psrc]').forEach(function(i){i.src=P(i.dataset.psrc)});
+  document.querySelectorAll('[data-phref]').forEach(function(a){a.href=P(a.dataset.phref);a.target='_blank'});
+  document.querySelectorAll('#v-documents .d, #v-documents .mdl').forEach(function(b){b.hidden=false});
+  };
+  window.mcPrivatePaths=function(){var s={};ALL.forEach(function(d){s[d.pdf]=1;d.pages.forEach(function(p){s[p]=1})});document.querySelectorAll('[data-psrc]').forEach(function(i){s[i.dataset.psrc]=1});return Object.keys(s)};
+  document.querySelectorAll('.mdl').forEach(function(b){b.addEventListener('click',function(){if(!dl)return;b.textContent='Préparation…';fetch(P(b.dataset.src)).then(function(r){return r.blob()}).then(function(blob){return dl.save({filename:b.dataset.file,data:blob})}).then(function(){b.textContent='Téléchargée'},function(e){b.textContent=(e&&e.code==='declined')?'Télécharger l’image':'Téléchargement indisponible'})})});
+  function save(d,b){if(!dl)return;b.textContent='Préparation…';fetch(P(d.pdf)).then(function(r){return r.blob()}).then(function(blob){return dl.save({filename:d.file,data:blob})}).then(function(){b.textContent='Téléchargé'},function(e){b.textContent=(e&&e.code==='declined')?'Télécharger le PDF':'Téléchargement indisponible'})}
+  
+  var V=document.getElementById('viewer'),vi=document.getElementById('v-img'),cur=0,pg=0,lastFocus=null;
+  function showPage(){var d=ALL[cur];vi.src=P(d.pages[pg]);vi.alt=d.title+', page '+(pg+1);document.getElementById('v-title').textContent=d.title;
+    document.getElementById('v-count').textContent='Page '+(pg+1)+' / '+d.pages.length;document.getElementById('v-prev').disabled=pg===0;document.getElementById('v-next').disabled=pg===d.pages.length-1}
+  function openV(i){lastFocus=document.activeElement;cur=i;pg=0;showPage();V.hidden=false;document.getElementById('v-close').focus()}
+  function closeV(){V.hidden=true;try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}if(lastFocus)lastFocus.focus()}
+  function step(n){var d=ALL[cur];pg=Math.max(0,Math.min(d.pages.length-1,pg+n));showPage()}
+  document.getElementById('v-prev').addEventListener('click',function(){step(-1)});document.getElementById('v-next').addEventListener('click',function(){step(1)});
+  document.getElementById('v-close').addEventListener('click',closeV);
+  document.getElementById('v-full').addEventListener('click',function(){try{var r=V.requestFullscreen&&V.requestFullscreen();if(r&&r.catch)r.catch(function(){})}catch(e){}});
+  document.addEventListener('keydown',function(e){if(V.hidden)return;if(e.key==='Escape')closeV();else if(e.key==='ArrowRight')step(1);else if(e.key==='ArrowLeft')step(-1)});
+  var tx=null;document.getElementById('v-stage').addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+  document.getElementById('v-stage').addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)step(dx<0?1:-1);tx=null});
+
+  var views=['fiches','commande-pro','commande-particulier','degustation','contact','documents'];
+  function show(){var h=location.hash.replace('#','');var sub=null;if(h==='documents'||h==='cours'||h==='vinplat'){sub=h;h='documents'}if(views.indexOf(h)<0)h='fiches';
+    if(sub){['documents','cours','vinplat'].forEach(function(x){document.getElementById('sub-'+x).hidden=x!==sub});document.querySelectorAll('.subtabs a').forEach(function(a){if(a.dataset.sub===sub)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')})}
+    views.forEach(function(v){document.getElementById('v-'+v).hidden=v!==h});
+    document.querySelectorAll('.tabs:not(.subtabs) a').forEach(function(a){if(a.dataset.v===h)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')})}
+  window.addEventListener('hashchange',show);show();
+})();
+</script>
+
+<script>(function(){
+var sec=document.querySelector('section.intro');if(!sec)return;
+var panes=[].slice.call(sec.children).filter(function(e){return e.tagName==='DIV'&&!e.classList.contains('car-nav')});if(panes.length<2)return;
+sec.classList.add('car');
+var names=['Histoire','Terroir','Encépagement'],nav=document.createElement('div');nav.className='car-nav';nav.setAttribute('role','tablist');
+var btns=panes.map(function(p,k){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.innerHTML=(names[k]||('Volet '+(k+1)))+'<i></i>';b.addEventListener('click',function(){show(k);restart()});nav.appendChild(b);return b});
+sec.appendChild(nav);
+var cur=0,t=null,DURS=[12000,8000,6000],DUR=9000,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function dur(){return DURS[cur]||DUR}
+function show(k){cur=(k+panes.length)%panes.length;panes.forEach(function(p,j){p.classList.toggle('on',j===cur);p.setAttribute('aria-hidden',j===cur?'false':'true')});nav.style.setProperty('--dur',dur()+'ms');btns.forEach(function(b,j){b.setAttribute('aria-current',j===cur?'true':'false');var i=b.querySelector('i');i.style.animation='none';i.offsetWidth;i.style.animation=''})}
+function stop(){clearTimeout(t);t=null;nav.classList.remove('run')}
+function restart(){stop();if(reduce)return;nav.classList.add('run');(function tick(){t=setTimeout(function(){show(cur+1);tick()},dur())})()}
+sec.addEventListener('mouseenter',stop);sec.addEventListener('mouseleave',restart);
+sec.addEventListener('focusin',stop);
+var x0=null;sec.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+sec.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40){show(cur+(dx<0?1:-1));restart()}x0=null});
+show(0);restart();
+})();</script><script>(function(){var h=document.querySelector('.hero');if(!h)return;var i=h.querySelector('img');function go(){h.classList.add('go')}if(i.complete)go();else i.addEventListener('load',go)})();</script>
+<script>(function(){
+var t=document.querySelector('.totop');if(t){addEventListener('scroll',function(){t.classList.toggle('on',scrollY>700)},{passive:true});t.addEventListener('click',function(){scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})})}
+if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-reveal');
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.fiche').forEach(function(f){io.observe(f)})}
+})();</script>
+<script>(function(){var h=document.querySelector('.hero');if(!h)return;var dom=h.querySelector('.dom'),sl=[].slice.call(h.querySelectorAll('.sl')),cap=h.querySelector('.hcap');
+if(matchMedia('(prefers-reduced-motion: reduce)').matches||!sl.length)return;
+var btn=document.createElement('button');btn.type='button';btn.className='hpause';btn.setAttribute('aria-label','Mettre le défilement en pause');btn.innerHTML='<span aria-hidden="true">❚❚</span>';h.appendChild(btn);
+var seq=[null].concat(sl),k=0,paused=false,t=null;function setCap(x){cap.classList.remove('on');setTimeout(function(){cap.textContent=x;cap.classList.add('on')},700)}
+function next(){k=(k+1)%seq.length;h.classList.add('slide');var s=seq[k];
+ sl.forEach(function(x){if(x!==s){x.classList.remove('on')}});
+ if(s){void s.offsetWidth;s.classList.add('on');dom.classList.add('off');setCap(s.dataset.cap)}else{dom.classList.remove('off');dom.style.animation='none';dom.style.transform='scale(1)';setCap('Le Domaine Maître Curnier')}}
+function run(){clearInterval(t);t=setInterval(next,8000)}
+btn.addEventListener('click',function(){paused=!paused;h.classList.toggle('paused',paused);btn.innerHTML='<span aria-hidden="true">'+(paused?'▶':'❚❚')+'</span>';btn.setAttribute('aria-label',paused?'Reprendre le défilement':'Mettre le défilement en pause');if(paused){clearInterval(t)}else{next();run()}});
+setTimeout(function(){cap.classList.add('on')},5500);setTimeout(function(){if(!paused){next();run()}},9000)})();</script>
+<script>(function(){
+var z=document.querySelector('.zoomable');if(z){var lb=document.createElement('div');lb.className='lbox';lb.hidden=true;lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');lb.setAttribute('aria-label','Carte agrandie');
+lb.innerHTML='<button type="button" class="lb-x" aria-label="Fermer">✕</button><div class="lb-in"><img alt="Carte de la Vallée du Rhône situant le Domaine Maître Curnier" src="'+z.querySelector('img').getAttribute('src')+'"></div>';document.body.appendChild(lb);
+function open(){lb.hidden=false;document.documentElement.style.overflow='hidden';lb.querySelector('.lb-x').focus()}function close(){lb.hidden=true;document.documentElement.style.overflow='';z.focus()}
+z.addEventListener('click',open);z.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}});
+lb.querySelector('.lb-x').addEventListener('click',close);lb.addEventListener('click',function(e){if(e.target===lb)close()});document.addEventListener('keydown',function(e){if(!lb.hidden&&e.key==='Escape')close()})}
+if(window.claude&&window.claude.use){window.claude.use('downloads').then(function(dl){if(!dl)return;document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.fdl');if(!a)return;e.preventDefault();var t='Télécharger la fiche (PDF)';a.textContent='Préparation…';fetch(a.getAttribute('href')).then(function(r){return r.blob()}).then(function(b){return dl.save({filename:a.dataset.file,data:b})}).then(function(){a.textContent='Fiche téléchargée';setTimeout(function(){a.textContent=t},3000)},function(){a.textContent=t})})},function(){})}
+})();</script>
+<script>(function(){
+var box=document.querySelector('.fiches');if(!box)return;box.classList.add('compact');
+var pan=document.createElement('div');pan.className='fpanel';pan.hidden=true;pan.setAttribute('role','dialog');pan.setAttribute('aria-modal','true');
+pan.innerHTML='<div class="fp-bar"><button type="button" class="fp-btn fp-next"><span class="pm" aria-hidden="true">›</span><span class="lb">Suivant</span></button><button type="button" class="fp-btn fp-close"><span class="pm" aria-hidden="true">−</span><span class="lb">Fermer</span></button></div>'+
+ '<button type="button" class="fp-btn fp-prev"><span class="pm" aria-hidden="true">‹</span><span class="lb">Précédent</span></button><div class="fp-in"></div>'+
+ '<div class="fp-mnav"><button type="button" class="fp-mprev"><b>‹ Précédent</b><span class="nm"></span></button><button type="button" class="fp-mnext"><b>Suivant ›</b><span class="nm"></span></button></div>';
+document.body.appendChild(pan);
+var inner=pan.querySelector('.fp-in'),closeBtn=pan.querySelector('.fp-close'),bar=pan.querySelector('.fp-bar'),prevBtn=pan.querySelector('.fp-prev'),nextBtn=pan.querySelector('.fp-next'),mprev=pan.querySelector('.fp-mprev'),mnext=pan.querySelector('.fp-mnext');
+var fiches=[].slice.call(document.querySelectorAll('.fiche')),cur=null,last=null;
+function nm(f){return f.querySelector('.f-head h2').textContent.replace(/\s+/g,' ').replace(/^AOP |^VDN /,'').trim()}
+var SN={antan:'Cuvée d’Antan',trad:'Tradition',conv:'La Conviviale',cdr:'Côtes du Rhône',rose:'Vacqueyras rosé',blanc:'Vacqueyras blanc',muscat:'Muscat de Beaumes-de-Venise',perles:'Perles de Rêve'};
+function shortNm(f){if(SN[f.id])return SN[f.id];var sp=f.querySelectorAll('.f-head h2 span');return (sp.length>1?sp[1]:sp[0]).textContent.trim()}
+function visible(){return fiches.filter(function(f){return !f.hidden})}
+function neighbor(d){var v=visible(),i=v.indexOf(cur);if(i<0)return null;return v[(i+d+v.length)%v.length]}
+function place(){if(pan.hidden)return;var wide=innerWidth>=1280;pan.classList.toggle('side',wide);
+ if(!wide){bar.style.removeProperty('--bx');bar.style.removeProperty('--by');return}
+ var r=inner.getBoundingClientRect().right,y=innerHeight/2,f=inner.querySelector('.fiche');
+ if(f){var bl=f.querySelectorAll(':scope > .blk, :scope > .duo');if(bl.length){var t=bl[0].getBoundingClientRect().top,bo=bl[bl.length-1].getBoundingClientRect().bottom;y=(Math.max(t,0)+Math.min(bo,innerHeight))/2}}
+ bar.style.setProperty('--bx',Math.round(r+16)+'px');bar.style.setProperty('--by',Math.round(y-bar.offsetHeight/2)+'px')}
+function show(f,dir){cur=f;var c=f.cloneNode(true);c.removeAttribute('id');c.classList.add('open','inpanel','vis');var m=c.querySelector('.fmore');if(m)m.remove();
+ if(dir)c.classList.add(dir>0?'from-r':'from-l');
+ var nav=pan.querySelector('.fp-mnav');pan.appendChild(nav);inner.innerHTML='';c.appendChild(nav);inner.appendChild(c);pan.style.setProperty('--tc',getComputedStyle(f).getPropertyValue('--tc'));pan.setAttribute('aria-label',nm(f));pan.scrollTop=0;
+ var p=neighbor(-1),n=neighbor(1),solo=visible().length<2;
+ prevBtn.hidden=nextBtn.hidden=solo;pan.querySelector('.fp-mnav').hidden=solo;
+ if(p){prevBtn.setAttribute('aria-label','Vin précédent : '+nm(p));prevBtn.title=shortNm(p);mprev.querySelector('.nm').textContent=shortNm(p);mprev.setAttribute('aria-label','Vin précédent : '+nm(p))}
+ if(n){nextBtn.setAttribute('aria-label','Vin suivant : '+nm(n));nextBtn.title=shortNm(n);mnext.querySelector('.nm').textContent=shortNm(n);mnext.setAttribute('aria-label','Vin suivant : '+nm(n))}
+ place();requestAnimationFrame(place)}
+function go(d){var f=neighbor(d);if(f)show(f,d)}
+function open(f,btn){last=btn;pan.hidden=false;document.documentElement.style.overflow='hidden';show(f,0);closeBtn.focus()}
+function close(){pan.hidden=true;pan.appendChild(pan.querySelector('.fp-mnav'));inner.innerHTML='';document.documentElement.style.overflow='';if(last)last.focus()}
+closeBtn.addEventListener('click',close);prevBtn.addEventListener('click',function(){go(-1)});nextBtn.addEventListener('click',function(){go(1)});mprev.addEventListener('click',function(){go(-1)});mnext.addEventListener('click',function(){go(1)});
+document.addEventListener('keydown',function(e){if(pan.hidden)return;if(e.key==='Escape')close();else if(e.key==='ArrowRight')go(1);else if(e.key==='ArrowLeft')go(-1)});
+var x0=null,y0=null;pan.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+pan.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;if(Math.abs(dx)>70&&Math.abs(dx)>1.5*Math.abs(dy))go(dx<0?1:-1);x0=null},{passive:true});
+pan.addEventListener('scroll',place,{passive:true});addEventListener('resize',place);
+fiches.forEach(function(f){var ph=f.querySelector('.photo');var b=document.createElement('button');b.type='button';b.className='fmore';
+ b.setAttribute('aria-label','Afficher la fiche complète : '+nm(f));b.innerHTML='<span class="pm" aria-hidden="true">+</span>Détails du vin';
+ b.addEventListener('click',function(){open(f,b)});ph.insertAdjacentElement('afterend',b)});
+})();</script>
+<script>(function(){var b=document.getElementById('copymail');if(!b)return;b.addEventListener('click',function(){var a='degustations.maitrecurnier@gmail.com';function ok(){b.textContent='Adresse copiée ✓';setTimeout(function(){b.textContent='Copier l’adresse'},2500)}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(a).then(ok,function(){prompt('Adresse e-mail :',a)})}else{prompt('Adresse e-mail :',a)}})})();</script>
+<style>
+.login-f{display:grid;gap:12px;max-width:420px}
+.login-f .actions button:not(.btn){font-family:var(--sans)}
+</style><script src="supabase.js"></script>
+<script>(function(){
+var URL_SB='https://ufuswihxfcpxqvynejzr.supabase.co',KEY='sb_publishable_TDGuMQz1aLkPe-ffpZcORg_BGreOgQV';
+if(!window.supabase)return;var sb=window.supabase.createClient(URL_SB,KEY);
+var box=document.getElementById('mc-login'),priv=document.getElementById('mc-private'),msg=document.getElementById('mc-msg');
+var mail=document.getElementById('mc-mail'),pass=document.getElementById('mc-pass');
+function say(t,err){msg.textContent=t;msg.className='hint'+(err?' err':'')}
+async function unlock(){
+  var paths=window.mcPrivatePaths();
+  var r=await sb.storage.from('prive').createSignedUrls(paths,60*60*8);
+  if(r.error){say('Accès refusé : ce compte n’est pas autorisé.',true);await sb.auth.signOut();return}
+  var map={},ok=0;(r.data||[]).forEach(function(x){if(x.signedUrl){map[x.path]=x.signedUrl;ok++}});
+  if(!ok){say('Accès refusé : ce compte n’est pas autorisé.',true);await sb.auth.signOut();return}
+  window.mcRenderDocs(map);box.hidden=true;priv.hidden=false;
+}
+function lock(){box.hidden=false;priv.hidden=true}
+sb.auth.getSession().then(function(s){if(s.data&&s.data.session)unlock();else lock()});
+document.getElementById('mc-login-form').addEventListener('submit',async function(e){e.preventDefault();say('Connexion…');
+  var r=await sb.auth.signInWithPassword({email:mail.value.trim(),password:pass.value});
+  if(r.error){say('E-mail ou mot de passe incorrect.',true);return}say('');unlock()});
+document.getElementById('mc-new').addEventListener('click',async function(){
+  if(!mail.value||pass.value.length<8){say('Indiquez votre e-mail et un mot de passe d’au moins 8 caractères, puis cliquez ici.',true);return}
+  var r=await sb.auth.signUp({email:mail.value.trim(),password:pass.value,options:{emailRedirectTo:location.origin+location.pathname+'#documents'}});
+  if(r.error){say(r.error.message,true);return}
+  if(r.data&&r.data.session){unlock()}else say('Compte créé. Ouvrez l’e-mail de confirmation reçu, puis revenez vous connecter.')});
+document.getElementById('mc-forgot').addEventListener('click',async function(){
+  if(!mail.value){say('Indiquez d’abord votre e-mail.',true);return}
+  var r=await sb.auth.resetPasswordForEmail(mail.value.trim(),{redirectTo:location.origin+location.pathname+'#documents'});
+  say(r.error?r.error.message:'Un e-mail de réinitialisation vient d’être envoyé.',!!r.error)});
+sb.auth.onAuthStateChange(function(ev){if(ev==='PASSWORD_RECOVERY'){var np=prompt('Nouveau mot de passe (8 caractères minimum) :');if(np&&np.length>=8)sb.auth.updateUser({password:np}).then(function(r){alert(r.error?r.error.message:'Mot de passe modifié.')})}});
+document.getElementById('mc-out').addEventListener('click',async function(){await sb.auth.signOut();location.hash='#fiches';location.reload()});
+})();</script></body></html>
