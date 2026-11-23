@@ -1,8 +1,8 @@
 {
   "name": "Domaine Maître Curnier",
   "short_name": "Maître Curnier",
-  "description": "Fiches, commandes et stock du Domaine Maître Curnier",
-  "start_url": "./#stock",
+  "description": "Domaine Maître Curnier : fiches techniques, bons de commande, dégustations et espace réservé (stock, documents, cours)",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -25,6 +25,48 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Fiches techniques",
+      "url": "./#fiches",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Bon de commande",
+      "url": "./#commande-pro",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Demande de dégustation",
+      "url": "./#degustation",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Stock",
+      "url": "./#stock",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
