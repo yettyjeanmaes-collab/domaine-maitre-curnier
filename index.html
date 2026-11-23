@@ -1044,11 +1044,14 @@ if(!window.supabase)return;var sb=window.supabase.createClient(URL_SB,KEY);windo
 var box=document.getElementById('mc-login'),priv=document.getElementById('mc-private'),msg=document.getElementById('mc-msg');
 var mail=document.getElementById('mc-mail'),pass=document.getElementById('mc-pass');
 function say(t,err){msg.textContent=t;msg.className='hint'+(err?' err':'')}
+// Rangement réel dans le coffre privé : deux dossiers (prive-docs-1 par défaut, prive-docs-2 pour les fichiers listés ici)
+var P2={};'accord-1-antan.jpg,accord-2-trad.jpg,accord-3-conv.jpg,accord-4-blanc.jpg,accord-5-rose.jpg,accord-6-cdr.jpg,accord-7-muscat.jpg,accord-8-perles.jpg,accords.pdf,bon-part-1.jpg,bon-part.pdf,bon-pro-1.jpg,bon-pro.pdf,dossier-1.jpg,dossier-2.jpg,dossier-3.jpg,dossier-4.jpg,dossier-5.jpg,dossier.pdf,fascicule-1.jpg,fascicule-2.jpg,fascicule.pdf,fiche-deg-1.jpg,fiche-deg-2.jpg,fiche-deg.pdf,fiches-1.jpg,fiches-2.jpg,fiches-3.jpg,fiches-4.jpg,fiches-5.jpg,fiches-6.jpg,fiches-7.jpg,fiches-8.jpg,fiches-9.jpg,fiches.pdf,guide-1.jpg,guide.pdf,invitation-1.jpg,invitation.pdf,onepager-1.jpg,onepager.pdf,script-1.jpg,script-2.jpg,script.pdf,vinplat-1.jpg,vinplat-2.jpg,vinplat-3.jpg,vinplat-4.jpg,vinplat-5.jpg,vinplat-6.jpg,vinplat-7.jpg,vinplat-8.jpg,vinplat-9.jpg,vinplat.pdf'.split(',').forEach(function(n){P2['docs/'+n]=1});
+function realPath(p){return (P2[p]?'prive-docs-2/':'prive-docs-1/')+p}
 async function unlock(){
   var paths=window.mcPrivatePaths();
-  var r=await sb.storage.from('prive').createSignedUrls(paths,60*60*8);
+  var r=await sb.storage.from('prive').createSignedUrls(paths.map(realPath),60*60*8);
   if(r.error){say('Accès refusé : ce compte n’est pas autorisé.',true);await sb.auth.signOut();return}
-  var map={},ok=0;(r.data||[]).forEach(function(x){if(x.signedUrl){map[x.path]=x.signedUrl;ok++}});
+  var map={},ok=0;(r.data||[]).forEach(function(x){if(x.signedUrl){map[String(x.path).replace(/^prive-docs-[12]\//,'')]=x.signedUrl;ok++}});
   if(!ok){say('Accès refusé : ce compte n’est pas autorisé.',true);await sb.auth.signOut();return}
   window.mcRenderDocs(map);box.hidden=true;priv.hidden=false;document.dispatchEvent(new Event('mc-unlocked'));
 }
