@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><meta name="theme-color" content="#701a20"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Maître Curnier"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"></head><body>
 <title>Domaine Maître Curnier</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
@@ -533,6 +533,7 @@ footer.ft .ft-web a:hover{border-bottom-color:#f0d49a}
       <a href="#documents" data-sub="documents">Documents</a>
       <a href="#cours" data-sub="cours">Cours</a>
       <a href="#vinplat" data-sub="vinplat">Vin &amp; plat</a>
+      <a href="#stock" data-sub="stock">Stock</a>
     </nav>
     <div id="sub-documents"><div class="docs" id="docs-grid"></div></div>
     <div id="sub-cours" hidden>
@@ -546,6 +547,106 @@ footer.ft .ft-web a:hover{border-bottom-color:#f0d49a}
       </ul></div>
       <div class="docs" id="cours-grid"></div>
     </div>
+    <div id="sub-stock" hidden><div id="stk">
+<div class="stk-head"><h2>Stock</h2></div>
+<p class="hint" style="margin:0 0 10px">Ventes, dégustations et réassorts — partagé entre vous deux. Stock en cartons de 6.</p>
+<details class="note" id="stk-install"><summary><b>Installer l’app sur le téléphone</b></summary>
+<p style="margin:8px 0 4px"><b>iPhone / iPad (Safari)</b> : ouvrez l’adresse du site, touchez le bouton <b>Partager</b> (carré avec une flèche), puis <b>Sur l’écran d’accueil</b>, puis <b>Ajouter</b>.</p>
+<p style="margin:4px 0"><b>Android (Chrome)</b> : ouvrez l’adresse du site, touchez le menu <b>⋮</b>, puis <b>Installer l’application</b> (ou <b>Ajouter à l’écran d’accueil</b>).</p>
+<p style="margin:4px 0">L’icône <b>Maître Curnier</b> apparaît alors sur l’écran d’accueil et s’ouvre directement sur le stock. À la première ouverture, connectez-vous avec votre e-mail et votre mot de passe.</p></details>
+<div class="stk-tabs"><button type="button" data-v="stock">Stock</button><button type="button" data-v="mouvements">Historique</button><button type="button" data-v="bilan">Bilan</button><button type="button" data-v="vins">Vins &amp; réglages</button></div>
+
+  <div id="stk-status" class="note">Chargement des données…</div>
+
+  <section id="stk-v-stock">
+    <div class="row-h"><h2>Stock restant</h2><span id="stk-tot" class="hint"></span></div>
+    <div id="stk-stockGrid" class="grid"></div>
+  </section>
+
+  <section id="stk-v-mouvements" hidden>
+    <div class="row-h"><h2>Historique</h2></div>
+    <div class="filters">
+      <select id="stk-fType"><option value="">Tous les types</option><option value="vente">Ventes</option><option value="degustation">Dégustations</option><option value="offert">Offert / casse</option><option value="entree">Entrées de stock</option></select>
+      <select id="stk-fVin"><option value="">Tous les vins</option></select>
+      <select id="stk-fMois"><option value="">Tous les mois</option></select>
+    </div>
+    <div class="scroll"><table><thead><tr><th>Date</th><th>Vin</th><th>Type</th><th class="n">Qté</th><th>Client / lieu</th><th></th></tr></thead><tbody id="stk-mvBody"></tbody></table></div>
+  </section>
+
+  <section id="stk-v-bilan" hidden>
+    <div class="row-h"><h2>Bilan</h2><select id="stk-bMois" style="width:auto"><option value="">Depuis le début</option></select></div>
+    <div class="scroll"><table><thead><tr><th>Vin</th><th class="n">Entrées</th><th class="n">Vendu</th><th class="n">Dégusté</th><th class="n">Offert / casse</th><th class="n" id="stk-thCa" hidden>Ventes €</th></tr></thead><tbody id="stk-bBody"></tbody><tfoot id="stk-bFoot"></tfoot></table></div>
+    <p class="hint">Quantités en bouteilles. La colonne « Ventes € » apparaît quand un prix particulier est renseigné pour un vin.</p>
+    <div style="margin-top:16px"><button id="stk-exportBtn" class="ghost">Exporter le stock (Excel / CSV)</button> <button id="stk-exportBtn2" class="ghost">Exporter l’historique (Excel / CSV)</button><span id="stk-exportMsg" class="hint"></span></div>
+  </section>
+
+  <section id="stk-v-vins" hidden>
+    <div class="row-h"><h2>Vins &amp; réglages</h2><button id="stk-addVin" class="ghost sm">+ Ajouter un vin</button></div>
+    <div class="scroll"><table><thead><tr><th>Vin</th><th class="n">Alerte sous</th><th class="n">Prix part.</th><th class="n">Prix pro</th><th></th></tr></thead><tbody id="stk-vinBody"></tbody></table></div>
+    <p class="hint">Le stock de départ laissé par le domaine se saisit avec « + Mouvement » → <b>Entrée de stock</b>. Les prix sont facultatifs.</p>
+  </section>
+
+
+<button id="stk-fab" class="fab" disabled>+ Mouvement</button>
+<div id="stk-toast" class="toast"></div>
+
+<dialog id="stk-dMv">
+  <form id="stk-fMv">
+    <div class="dh" id="stk-dMvT">Nouveau mouvement</div>
+    <div class="db">
+      <label>Type</label>
+      <div class="types" id="stk-typeBtns">
+        <button type="button" data-t="vente">Vente</button>
+        <button type="button" data-t="degustation">Dégustation</button>
+        <button type="button" data-t="offert">Offert / casse</button>
+        <button type="button" data-t="entree">Entrée de stock</button>
+      </div>
+      <label for="stk-mVin">Vin</label>
+      <select id="stk-mVin" required></select>
+      <div class="two">
+        <div><label for="stk-mC">Cartons (6)</label><input id="stk-mC" type="number" min="0" step="1" inputmode="numeric" value="0"></div>
+        <div><label for="stk-mB">Bouteilles</label><input id="stk-mB" type="number" min="0" step="1" inputmode="numeric" value="0"></div>
+      </div>
+      <div class="hint" id="stk-mTot"></div>
+      <div class="two">
+        <div><label for="stk-mDate">Date</label><input id="stk-mDate" type="date" required></div>
+        <div><label for="stk-mCli" id="stk-mCliL">Client / lieu</label><input id="stk-mCli" type="text" maxlength="120"></div>
+      </div>
+      <label for="stk-mNote">Note (facultatif)</label>
+      <input id="stk-mNote" type="text" maxlength="200">
+      <div class="err-t" id="stk-mErr"></div>
+    </div>
+    <div class="df"><button type="button" class="ghost" id="stk-mDel" hidden>Supprimer</button><span style="flex:1"></span><button type="button" class="ghost" id="stk-mCancel">Annuler</button><button type="submit" id="stk-mSave">Enregistrer</button></div>
+  </form>
+</dialog>
+
+<dialog id="stk-dVin">
+  <form id="stk-fVinF">
+    <div class="dh" id="stk-dVinT">Vin</div>
+    <div class="db">
+      <label for="stk-vNom">Nom de la cuvée</label><input id="stk-vNom" required maxlength="80">
+      <label for="stk-vAp">Appellation</label><input id="stk-vAp" maxlength="80">
+      <label for="stk-vCoul">Couleur</label>
+      <select id="stk-vCoul"><option value="rouge">Rouge</option><option value="blanc">Blanc</option><option value="rose">Rosé</option><option value="doux">Vin doux</option><option value="effervescent">Effervescent</option></select>
+      <label for="stk-vSeuil">Alerte quand le stock passe sous (bouteilles)</label><input id="stk-vSeuil" type="number" min="0" step="1" inputmode="numeric">
+      <div class="two">
+        <div><label for="stk-vPp">Prix particulier (€)</label><input id="stk-vPp" type="number" min="0" step="0.01" inputmode="decimal"></div>
+        <div><label for="stk-vPr">Prix pro (€)</label><input id="stk-vPr" type="number" min="0" step="0.01" inputmode="decimal"></div>
+      </div>
+      <div class="err-t" id="stk-vErr"></div>
+    </div>
+    <div class="df"><button type="button" class="ghost" id="stk-vDel" hidden>Supprimer</button><span style="flex:1"></span><button type="button" class="ghost" id="stk-vCancel">Annuler</button><button type="submit">Enregistrer</button></div>
+  </form>
+</dialog>
+
+<dialog id="stk-dConf">
+  <div class="dh">Confirmer</div>
+  <div class="db"><p id="stk-confTxt"></p></div>
+  <div class="df"><button type="button" class="ghost" id="stk-confNo">Annuler</button><button type="button" id="stk-confYes">Supprimer</button></div>
+</dialog>
+
+
+</div></div>
     <div id="sub-vinplat" hidden>
       <div class="cta"><p><strong>Vin &amp; plat</strong>Un accord signature par vin, trois aliments à retenir et la phrase à dire au client : les fiches pour la table, les visuels pour montrer l’accord en un coup d’œil.</p></div>
       <div class="docs" id="vinplat-grid"></div>
@@ -842,8 +943,8 @@ footer.ft .ft-web a:hover{border-bottom-color:#f0d49a}
   document.getElementById('v-stage').addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)step(dx<0?1:-1);tx=null});
 
   var views=['fiches','commande-pro','commande-particulier','degustation','contact','documents'];
-  function show(){var h=location.hash.replace('#','');var sub=null;if(h==='documents'||h==='cours'||h==='vinplat'){sub=h;h='documents'}if(views.indexOf(h)<0)h='fiches';
-    if(sub){['documents','cours','vinplat'].forEach(function(x){document.getElementById('sub-'+x).hidden=x!==sub});document.querySelectorAll('.subtabs a').forEach(function(a){if(a.dataset.sub===sub)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')})}
+  function show(){var h=location.hash.replace('#','');var sub=null;if(h==='documents'||h==='cours'||h==='vinplat'||h==='stock'){sub=h;h='documents'}if(views.indexOf(h)<0)h='fiches';
+    if(sub){['documents','cours','vinplat','stock'].forEach(function(x){document.getElementById('sub-'+x).hidden=x!==sub});document.querySelectorAll('.subtabs a').forEach(function(a){if(a.dataset.sub===sub)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')})}
     views.forEach(function(v){document.getElementById('v-'+v).hidden=v!==h});
     document.querySelectorAll('.tabs:not(.subtabs) a').forEach(function(a){if(a.dataset.v===h)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')})}
   window.addEventListener('hashchange',show);show();
@@ -939,7 +1040,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 </style><script src="supabase.js"></script>
 <script>(function(){
 var URL_SB='https://ufuswihxfcpxqvynejzr.supabase.co',KEY='sb_publishable_TDGuMQz1aLkPe-ffpZcORg_BGreOgQV';
-if(!window.supabase)return;var sb=window.supabase.createClient(URL_SB,KEY);
+if(!window.supabase)return;var sb=window.supabase.createClient(URL_SB,KEY);window.mcSb=sb;
 var box=document.getElementById('mc-login'),priv=document.getElementById('mc-private'),msg=document.getElementById('mc-msg');
 var mail=document.getElementById('mc-mail'),pass=document.getElementById('mc-pass');
 function say(t,err){msg.textContent=t;msg.className='hint'+(err?' err':'')}
@@ -949,7 +1050,7 @@ async function unlock(){
   if(r.error){say('Accès refusé : ce compte n’est pas autorisé.',true);await sb.auth.signOut();return}
   var map={},ok=0;(r.data||[]).forEach(function(x){if(x.signedUrl){map[x.path]=x.signedUrl;ok++}});
   if(!ok){say('Accès refusé : ce compte n’est pas autorisé.',true);await sb.auth.signOut();return}
-  window.mcRenderDocs(map);box.hidden=true;priv.hidden=false;
+  window.mcRenderDocs(map);box.hidden=true;priv.hidden=false;document.dispatchEvent(new Event('mc-unlocked'));
 }
 function lock(){box.hidden=false;priv.hidden=true}
 sb.auth.getSession().then(function(s){if(s.data&&s.data.session)unlock();else lock()});
@@ -967,4 +1068,267 @@ document.getElementById('mc-forgot').addEventListener('click',async function(){
   say(r.error?r.error.message:'Un e-mail de réinitialisation vient d’être envoyé.',!!r.error)});
 sb.auth.onAuthStateChange(function(ev){if(ev==='PASSWORD_RECOVERY'){var np=prompt('Nouveau mot de passe (8 caractères minimum) :');if(np&&np.length>=8)sb.auth.updateUser({password:np}).then(function(r){alert(r.error?r.error.message:'Mot de passe modifié.')})}});
 document.getElementById('mc-out').addEventListener('click',async function(){await sb.auth.signOut();location.hash='#fiches';location.reload()});
-})();</script></body></html>
+})();</script><style id="stk-css">
+#stk{
+  font-family:var(--body);font-size:16px;color:var(--fg);
+  --bx:#701a20;--bx2:#8d2a31;--or:#b8913f;--or2:#e8c89a;--bg:#faf6f0;--surf:#fff;--fg:#2a1a1a;--mut:#7a6a66;--line:#e6dcd0;--ok:#3c7a3a;--warn:#c77a12;--bad:#b3261e;--display:"MC Titre",Georgia,serif;--body:"Carlito","Segoe UI",sans-serif
+.note{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--or);padding:10px 12px;border-radius:8px;font-size:14px;color:var(--mut);margin-bottom:14px}
+.note.err{border-left-color:var(--bad);color:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px;position:relative}
+.card h3{margin:0;font-family:var(--display);font-weight:400;font-size:19px;color:var(--bx)}
+.card .ap{font-size:13px;color:var(--mut);margin-top:2px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:1px}
+.qty{display:flex;align-items:baseline;gap:6px;margin-top:10px}
+.qty b{font-family:var(--display);font-size:34px;font-weight:700}
+.qty small{color:var(--mut);font-size:14px}
+.badge{position:absolute;top:12px;right:12px;font-size:12px;padding:3px 8px;border-radius:20px;font-weight:700}
+.b-ok{background:#e4f0e2;color:var(--ok)}.b-warn{background:#fbecd6;color:var(--warn)}.b-bad{background:#f7dcda;color:var(--bad)}
+.mini{display:flex;gap:12px;font-size:13px;color:var(--mut);margin-top:8px;flex-wrap:wrap}
+.row-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 12px}
+.row-h h2{margin:0;font-family:var(--display);font-weight:400;font-size:22px}
+button,.btn{font-family:var(--body);font-size:15px;border-radius:10px;border:1px solid var(--bx);background:var(--bx);color:#fff;padding:10px 16px;cursor:pointer}
+button.ghost{background:transparent;color:var(--bx)}
+button.sm{padding:6px 10px;font-size:13px}
+button:disabled{opacity:.5;cursor:default}
+table{width:100%;border-collapse:collapse;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:rgba(112,26,32,.07);font-weight:700;font-size:13px}
+td.n,th.n{text-align:right;white-space:nowrap}
+.t{display:inline-block;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:700}
+.t-vente{background:#e6e0f3;color:#4b3a85}.t-degustation{background:#fbecd6;color:#9a5d08}.t-offert{background:#eee;color:#555}.t-entree{background:#e4f0e2;color:var(--ok)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+select,input,textarea{font-family:var(--body);font-size:16px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surf);color:var(--fg);width:100%}
+.filters select{width:auto}
+label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.types button{background:var(--surf);color:var(--fg);border:1px solid var(--line);padding:12px 8px}
+.types button.on{background:var(--bx);color:#fff;border-color:var(--bx)}
+dialog{border:none;border-radius:14px;padding:0;width:min(520px,94vw);background:var(--bg);color:var(--fg)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dh{background:var(--bx);color:#fff;padding:14px 16px;font-family:var(--display);font-size:20px;border-bottom:3px solid var(--or)}
+.db{padding:6px 16px 16px;max-height:72vh;overflow:auto}
+.df{display:flex;gap:8px;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--line)}
+.hint{font-size:13px;color:var(--mut);margin-top:6px}
+.err-t{color:var(--bad);font-size:14px;margin-top:8px}
+.empty{text-align:center;color:var(--mut);padding:30px 10px}
+.scroll{overflow-x:auto}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:20px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:9}
+.toast.on{opacity:1}
+[hidden]{display:none!important}
+  .fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));padding:15px 22px;font-size:17px;border-radius:40px;box-shadow:0 6px 18px rgba(0,0,0,.25);border:2px solid var(--or);z-index:5}
+  .stk-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 6px}
+  .stk-head h2{margin:0;font-family:var(--display);font-weight:400;font-size:24px;color:var(--bx)}
+  .stk-tabs{display:flex;gap:6px;overflow-x:auto;margin:0 0 14px;padding-bottom:2px}
+  .stk-tabs button{background:var(--surf);color:var(--fg);border:1px solid var(--line);border-radius:20px;padding:8px 14px;font-size:15px;white-space:nowrap}
+  .stk-tabs button.on{background:var(--bx);color:#fff;border-color:var(--bx)}
+  button{font-family:var(--body)}
+  *{box-sizing:border-box}
+
+}
+:root[data-theme="dark"] #stk{--bg:#1b1414;--surf:#251c1c;--fg:#f1e8e2;--mut:#b3a39d;--line:#3a2d2d;--bx:#9b2a33;--bx2:#b23a43}
+:root[data-theme="dark"] #stk .stk-head h2,:root[data-theme="dark"] #stk .card h3{color:#e8c89a}
+:root[data-theme="dark"] #stk button.ghost{color:#e8c89a;border-color:#e8c89a}
+</style>
+<script>
+
+(function(){
+var COUL={rouge:'#701a20',blanc:'#d9c27a',rose:'#e59a9a',doux:'#c98a2b',effervescent:'#b9b29a'};
+var TYPES={vente:'Vente',degustation:'Dégustation',offert:'Offert / casse',entree:'Entrée'};
+var vins=[],mvs=[],sb=null,canWrite=true,loaded={v:false,m:false},started=false;
+var $=function(id){return document.getElementById('stk-'+id)};
+function el(tag,attrs,txt){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==='class')e.className=attrs[k];else e.setAttribute(k,attrs[k])}if(txt!=null)e.textContent=txt;return e}
+function toast(t){var x=$('toast');x.textContent=t;x.classList.add('on');setTimeout(function(){x.classList.remove('on')},2200)}
+function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function fmtD(s){if(!s)return '';var p=String(s).split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:s}
+function mois(s){return String(s||'').slice(0,7)}
+var MN=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+function moisL(m){var p=m.split('-');return MN[(+p[1])-1]+' '+p[0]}
+function cb(n){n=Math.max(0,n|0);var c=Math.floor(n/6),b=n%6;var s=[];if(c)s.push(c+' carton'+(c>1?'s':''));if(b||!c)s.push(b+' bt'+(b>1?'s':''));return s.join(' + ')}
+function num(v){var n=Number(v);return isFinite(n)?n:0}
+function eur(n){return n.toLocaleString('fr-BE',{style:'currency',currency:'EUR'})}
+function vinById(id){for(var i=0;i<vins.length;i++)if(vins[i].id===id)return vins[i];return null}
+function stockOf(id){var s=0;mvs.forEach(function(m){if(m.vin!==id)return;var q=num(m.qte);s+=m.type==='entree'?q:-q});return s}
+
+/* ---------- navigation interne ---------- */
+var VIEWS=['stock','mouvements','bilan','vins'];
+function go(h){if(VIEWS.indexOf(h)<0)h='stock';VIEWS.forEach(function(v){$('v-'+v).hidden=v!==h});document.querySelectorAll('#stk .stk-tabs button').forEach(function(a){a.classList.toggle('on',a.dataset.v===h)})}
+document.querySelectorAll('#stk .stk-tabs button').forEach(function(a){a.addEventListener('click',function(){go(a.dataset.v)})});go('stock');
+
+/* ---------- rendering ---------- */
+function render(){
+  if(!(loaded.v&&loaded.m))return;
+  vins.sort(function(a,b){return num(a.ordre)-num(b.ordre)});
+  renderStock();renderFilters();renderMv();renderBilan();renderVins();
+}
+function renderStock(){
+  var g=$('stockGrid');g.textContent='';var tot=0;
+  if(!vins.length){g.appendChild(el('div',{class:'empty'},'Aucun vin pour l’instant. Ajoutez-en dans « Vins & réglages ».'));$('tot').textContent='';return}
+  vins.forEach(function(v){
+    var s=stockOf(v.id);tot+=Math.max(0,s);
+    var c=el('div',{class:'card'});
+    var h=el('h3');var d=el('span',{class:'dot'});d.style.background=COUL[v.couleur]||'#999';h.appendChild(d);h.appendChild(document.createTextNode(v.nom||''));c.appendChild(h);
+    c.appendChild(el('div',{class:'ap'},v.appellation||''));
+    var hasIn=mvs.some(function(m){return m.vin===v.id});
+    var seuil=v.seuil!=null&&v.seuil!==''?num(v.seuil):null;
+    var b;
+    if(!hasIn)b=el('span',{class:'badge b-warn'},'À remplir');
+    else if(s<=0)b=el('span',{class:'badge b-bad'},'Épuisé');
+    else if(seuil!=null&&s<seuil)b=el('span',{class:'badge b-warn'},'Stock bas');
+    else b=el('span',{class:'badge b-ok'},'OK');
+    c.appendChild(b);
+    var q=el('div',{class:'qty'});q.appendChild(el('b',null,String(s)));q.appendChild(el('small',null,'bouteilles · '+cb(s)));c.appendChild(q);
+    var mini=el('div',{class:'mini'});var sv=0,sd=0;mvs.forEach(function(m){if(m.vin!==v.id)return;if(m.type==='vente')sv+=num(m.qte);if(m.type==='degustation')sd+=num(m.qte)});
+    mini.appendChild(el('span',null,'Vendu : '+sv));mini.appendChild(el('span',null,'Dégusté : '+sd));
+    if(num(v.prixPart)>0&&s>0)mini.appendChild(el('span',null,'Valeur : '+eur(s*num(v.prixPart))));
+    c.appendChild(mini);g.appendChild(c);
+  });
+  $('tot').textContent='Total : '+tot+' bouteilles ('+cb(tot)+')';
+}
+function fillSel(sel,opts,first){var cur=sel.value;sel.textContent='';if(first)sel.appendChild(el('option',{value:''},first));opts.forEach(function(o){sel.appendChild(el('option',{value:o[0]},o[1]))});sel.value=cur;if(sel.value!==cur)sel.value=''}
+function renderFilters(){
+  fillSel($('fVin'),vins.map(function(v){return[v.id,v.nom]}),'Tous les vins');
+  var ms={};mvs.forEach(function(m){if(m.date)ms[mois(m.date)]=1});var ml=Object.keys(ms).sort().reverse().map(function(m){return[m,moisL(m)]});
+  fillSel($('fMois'),ml,'Tous les mois');fillSel($('bMois'),ml,'Depuis le début');
+}
+function renderMv(){
+  var b=$('mvBody');b.textContent='';var ft=$('fType').value,fv=$('fVin').value,fm=$('fMois').value;
+  var list=mvs.filter(function(m){return(!ft||m.type===ft)&&(!fv||m.vin===fv)&&(!fm||mois(m.date)===fm)});
+  list.sort(function(a,b){return(String(b.date)+String(b.cree)).localeCompare(String(a.date)+String(a.cree))});
+  if(!list.length){var tr=el('tr');var td=el('td',{colspan:'6',class:'empty'},mvs.length?'Aucun mouvement pour ce filtre.':'Aucun mouvement enregistré. Commencez par une « Entrée de stock ».');tr.appendChild(td);b.appendChild(tr);return}
+  list.forEach(function(m){
+    var v=vinById(m.vin);var tr=el('tr');
+    tr.appendChild(el('td',null,fmtD(m.date)));
+    tr.appendChild(el('td',null,v?v.nom:'(vin supprimé)'));
+    var tt=el('td');tt.appendChild(el('span',{class:'t t-'+(TYPES[m.type]?m.type:'offert')},TYPES[m.type]||m.type));tr.appendChild(tt);
+    tr.appendChild(el('td',{class:'n'},(m.type==='entree'?'+':'−')+num(m.qte)));
+    var cl=el('td',null,m.client||'');if(m.note){cl.appendChild(el('div',{class:'hint'},m.note))}tr.appendChild(cl);
+    var ed=el('td');if(canWrite){var bt=el('button',{class:'ghost sm',type:'button'},'Modifier');bt.addEventListener('click',function(){openMv(m)});ed.appendChild(bt)}tr.appendChild(ed);
+    b.appendChild(tr);
+  });
+}
+function renderBilan(){
+  var b=$('bBody'),f=$('bFoot');b.textContent='';f.textContent='';var bm=$('bMois').value;
+  var anyPrice=vins.some(function(v){return num(v.prixPart)>0});$('thCa').hidden=!anyPrice;
+  var T={e:0,v:0,d:0,o:0,ca:0};
+  vins.forEach(function(v){
+    var r={e:0,v:0,d:0,o:0};mvs.forEach(function(m){if(m.vin!==v.id||(bm&&mois(m.date)!==bm))return;var q=num(m.qte);if(m.type==='entree')r.e+=q;else if(m.type==='vente')r.v+=q;else if(m.type==='degustation')r.d+=q;else r.o+=q});
+    var ca=r.v*num(v.prixPart);
+    var tr=el('tr');tr.appendChild(el('td',null,v.nom));['e','v','d','o'].forEach(function(k){tr.appendChild(el('td',{class:'n'},String(r[k])));T[k]+=r[k]});
+    if(anyPrice)tr.appendChild(el('td',{class:'n'},num(v.prixPart)>0?eur(ca):'—'));T.ca+=ca;b.appendChild(tr);
+  });
+  var tr=el('tr');tr.appendChild(el('th',null,'Total'));['e','v','d','o'].forEach(function(k){tr.appendChild(el('th',{class:'n'},String(T[k])))});if(anyPrice)tr.appendChild(el('th',{class:'n'},eur(T.ca)));f.appendChild(tr);
+}
+function renderVins(){
+  var b=$('vinBody');b.textContent='';$('addVin').hidden=!canWrite;
+  vins.forEach(function(v){
+    var tr=el('tr');var td=el('td');var d=el('span',{class:'dot'});d.style.background=COUL[v.couleur]||'#999';td.appendChild(d);td.appendChild(document.createTextNode(v.nom||''));td.appendChild(el('div',{class:'hint'},v.appellation||''));tr.appendChild(td);
+    tr.appendChild(el('td',{class:'n'},v.seuil!=null&&v.seuil!==''?String(v.seuil):'—'));
+    tr.appendChild(el('td',{class:'n'},num(v.prixPart)>0?eur(num(v.prixPart)):'—'));
+    tr.appendChild(el('td',{class:'n'},num(v.prixPro)>0?eur(num(v.prixPro)):'—'));
+    var e=el('td');if(canWrite){var bt=el('button',{class:'ghost sm',type:'button'},'Modifier');bt.addEventListener('click',function(){openVin(v)});e.appendChild(bt)}tr.appendChild(e);
+    b.appendChild(tr);
+  });
+}
+['fType','fVin','fMois'].forEach(function(id){$(id).addEventListener('change',renderMv)});
+$('bMois').addEventListener('change',renderBilan);
+
+/* ---------- confirm dialog ---------- */
+function confirmBox(txt){return new Promise(function(res){$('confTxt').textContent=txt;var d=$('dConf');function done(v){$('confYes').onclick=$('confNo').onclick=null;d.close();res(v)}$('confYes').onclick=function(){done(true)};$('confNo').onclick=function(){done(false)};d.showModal()})}
+
+/* ---------- mouvement dialog ---------- */
+var curMv=null,curType='vente';
+function setType(t){curType=t;document.querySelectorAll('#stk-typeBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.t===t)});$('mCliL').textContent=t==='entree'?'Provenance':t==='degustation'?'Lieu / hôte':'Client'}
+document.querySelectorAll('#stk-typeBtns button').forEach(function(b){b.addEventListener('click',function(){setType(b.dataset.t)})});
+function updTot(){var q=num($('mC').value)*6+num($('mB').value);var v=vinById($('mVin').value);var t='= '+q+' bouteille'+(q>1?'s':'');if(v&&curType!=='entree'){var s=stockOf(v.id)+(curMv&&curMv.vin===v.id&&curMv.type!=='entree'?num(curMv.qte):0)-(curMv&&curMv.vin===v.id&&curMv.type==='entree'?num(curMv.qte):0);t+=' · stock actuel : '+s}$('mTot').textContent=t}
+['mC','mB','mVin'].forEach(function(id){$(id).addEventListener('input',updTot)});
+document.querySelectorAll('#stk-typeBtns button').forEach(function(b){b.addEventListener('click',updTot)});
+function openMv(m){
+  if(!vins.length){toast('Ajoutez d’abord un vin');return}
+  curMv=m||null;fillSel($('mVin'),vins.map(function(v){return[v.id,v.nom]}));
+  $('dMvT').textContent=m?'Modifier le mouvement':'Nouveau mouvement';
+  setType(m?m.type:'vente');
+  $('mVin').value=m?m.vin:vins[0].id;
+  var q=m?num(m.qte):0;$('mC').value=m?Math.floor(q/6):0;$('mB').value=m?q%6:0;
+  $('mDate').value=m?m.date:today();$('mCli').value=m?(m.client||''):'';$('mNote').value=m?(m.note||''):'';
+  $('mErr').textContent='';$('mDel').hidden=!m;updTot();$('dMv').showModal();
+}
+$('fab').addEventListener('click',function(){openMv(null)});
+$('mCancel').addEventListener('click',function(){$('dMv').close()});
+$('fMv').addEventListener('submit',function(e){
+  e.preventDefault();var q=num($('mC').value)*6+num($('mB').value);
+  if(q<=0||q!==Math.floor(q)){$('mErr').textContent='Indiquez une quantité (cartons et/ou bouteilles).';return}
+  if(!$('mVin').value||!$('mDate').value){$('mErr').textContent='Choisissez le vin et la date.';return}
+  var body={date:$('mDate').value,vin:$('mVin').value,type:curType,qte:q,client:$('mCli').value.trim(),note:$('mNote').value.trim(),cree:curMv?curMv.cree:new Date().toISOString(),modifie:new Date().toISOString()};
+  $('mSave').disabled=true;
+  var wasEdit=!!curMv;
+  saveMv(body,curMv?curMv.id:null).then(function(){$('dMv').close();toast(wasEdit?'Mouvement modifié':'Mouvement enregistré')},function(er){$('mErr').textContent=writeErr(er)}).then(function(){$('mSave').disabled=false});
+});
+$('mDel').addEventListener('click',function(){if(!curMv)return;var m=curMv;$('dMv').close();confirmBox('Supprimer ce mouvement ('+(TYPES[m.type]||'')+', '+num(m.qte)+' bt, '+fmtD(m.date)+') ?').then(function(ok){if(!ok)return;delMv(m.id).then(function(){toast('Mouvement supprimé')},function(er){toast(writeErr(er))})})});
+
+/* ---------- vin dialog ---------- */
+var curVin=null;
+function openVin(v){curVin=v||null;$('dVinT').textContent=v?'Modifier le vin':'Nouveau vin';$('vNom').value=v?v.nom||'':'';$('vAp').value=v?v.appellation||'':'';$('vCoul').value=v?v.couleur||'rouge':'rouge';$('vSeuil').value=v&&v.seuil!=null?v.seuil:'';$('vPp').value=v&&v.prixPart!=null?v.prixPart:'';$('vPr').value=v&&v.prixPro!=null?v.prixPro:'';$('vErr').textContent='';$('vDel').hidden=!v;$('dVin').showModal()}
+$('addVin').addEventListener('click',function(){openVin(null)});
+$('vCancel').addEventListener('click',function(){$('dVin').close()});
+function optNum(id){var x=$(id).value;return x===''?null:num(x)}
+$('fVinF').addEventListener('submit',function(e){
+  e.preventDefault();var nom=$('vNom').value.trim();if(!nom){$('vErr').textContent='Le nom est obligatoire.';return}
+  var body={nom:nom,appellation:$('vAp').value.trim(),couleur:$('vCoul').value,seuil:optNum('vSeuil'),prixPart:optNum('vPp'),prixPro:optNum('vPr'),ordre:curVin?num(curVin.ordre):(vins.reduce(function(a,v){return Math.max(a,num(v.ordre))},0)+1)};
+  saveVin(body,curVin?curVin.id:null).then(function(){$('dVin').close();toast('Vin enregistré')},function(er){$('vErr').textContent=writeErr(er)});
+});
+$('vDel').addEventListener('click',function(){if(!curVin)return;var v=curVin;var n=mvs.filter(function(m){return m.vin===v.id}).length;if(n){$('vErr').textContent='Impossible de supprimer : ce vin a '+n+' mouvement(s) dans l’historique.';return}$('dVin').close();confirmBox('Supprimer « '+v.nom+' » ?').then(function(ok){if(!ok)return;delVin(v.id).then(function(){toast('Vin supprimé')},function(er){toast(writeErr(er))})})});
+
+function writeErr(er){var c=er&&er.code;if(c==='42501'||c==='PGRST301'){return 'Votre compte n’est pas autorisé à modifier le stock.'}if(c==='23503')return 'Ce vin est utilisé par des mouvements.';return 'Enregistrement impossible pour le moment, réessayez.'}
+function applyWrite(){$('fab').disabled=!canWrite||!sb;$('fab').hidden=!canWrite;render()}
+
+/* ---------- export CSV (sans service externe) ---------- */
+function csv(rows){return '﻿'+rows.map(function(r){return r.map(function(c){c=c==null?'':String(c);return /[;"\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(';')}).join('\r\n')}
+function dl(name,text){try{var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);$('exportMsg').textContent=''}catch(e){$('exportMsg').textContent=' Export impossible sur cet appareil.'}}
+$('exportBtn').addEventListener('click',function(){
+  var st=[['Vin','Appellation','Stock (bouteilles)','Cartons','Bouteilles hors carton','Vendu','Dégusté','Offert / casse','Entrées']];
+  vins.forEach(function(v){var s=stockOf(v.id),r={e:0,v:0,d:0,o:0};mvs.forEach(function(m){if(m.vin!==v.id)return;var q=num(m.qte);if(m.type==='entree')r.e+=q;else if(m.type==='vente')r.v+=q;else if(m.type==='degustation')r.d+=q;else r.o+=q});st.push([v.nom,v.appellation||'',s,Math.floor(Math.max(0,s)/6),Math.max(0,s)%6,r.v,r.d,r.o,r.e])});
+  dl('Stock Maitre Curnier '+today()+'.csv',csv(st));
+});
+$('exportBtn2').addEventListener('click',function(){
+  var mv=[['Date','Vin','Type','Quantité (bt)','Client / lieu','Note']];
+  mvs.slice().sort(function(a,b){return String(a.date).localeCompare(String(b.date))}).forEach(function(m){var v=vinById(m.vin);mv.push([m.date,v?v.nom:'(vin supprimé)',TYPES[m.type]||m.type,(m.type==='entree'?1:-1)*num(m.qte),m.client||'',m.note||''])});
+  dl('Mouvements Maitre Curnier '+today()+'.csv',csv(mv));
+});
+
+/* ---------- données (Supabase, accès réservé aux membres) ---------- */
+function setStatus(t,err){var s=$('status');if(!t){s.hidden=true;return}s.hidden=false;s.textContent=t;s.classList.toggle('err',!!err)}
+function chk(r){return r&&r.error?Promise.reject(r.error):r}
+function slug(s){return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,30)||'vin'}
+function vinFromRow(r){return {id:r.id,nom:r.nom,appellation:r.appellation,couleur:r.couleur,ordre:r.ordre,seuil:r.seuil,prixPart:r.prix_part==null?null:Number(r.prix_part),prixPro:r.prix_pro==null?null:Number(r.prix_pro)}}
+var busy=false,again=false;
+function reload(){
+  if(!sb)return Promise.resolve();
+  if(busy){again=true;return Promise.resolve()}
+  busy=true;
+  var pages=[];
+  function page(from){return sb.from('mouvements').select('*').order('date',{ascending:false}).range(from,from+999).then(chk).then(function(r){pages=pages.concat(r.data||[]);return(r.data||[]).length===1000?page(from+1000):pages})}
+  return Promise.all([sb.from('vins').select('*').order('ordre').then(chk),page(0)]).then(function(x){
+    vins=(x[0].data||[]).map(vinFromRow);mvs=x[1].map(function(m){return Object.assign({},m,{qte:Number(m.qte)})});loaded.v=loaded.m=true;setStatus('');render();
+  }).catch(function(er){if(!loaded.v)setStatus('Impossible de charger le stock. Vérifiez votre connexion, puis rouvrez cet onglet.',true)}).then(function(){busy=false;if(again){again=false;reload()}});
+}
+function saveMv(body,id){var row={date:body.date,vin:body.vin,type:body.type,qte:body.qte,client:body.client||null,note:body.note||null,modifie:new Date().toISOString()};return(id?sb.from('mouvements').update(row).eq('id',id):sb.from('mouvements').insert(row)).then(chk).then(reload)}
+function delMv(id){return sb.from('mouvements').delete().eq('id',id).then(chk).then(reload)}
+function saveVin(b,id){var row={nom:b.nom,appellation:b.appellation||null,couleur:b.couleur,ordre:b.ordre,seuil:b.seuil,prix_part:b.prixPart,prix_pro:b.prixPro};
+  if(id)return sb.from('vins').update(row).eq('id',id).then(chk).then(reload);
+  row.id=slug(b.nom)+'-'+Math.random().toString(36).slice(2,6);return sb.from('vins').insert(row).then(chk).then(reload)}
+function delVin(id){return sb.from('vins').delete().eq('id',id).then(chk).then(reload)}
+function start(){
+  if(started||!window.mcSb)return;started=true;sb=window.mcSb;applyWrite();reload();
+  try{sb.channel('stock-sync').on('postgres_changes',{event:'*',schema:'public',table:'mouvements'},reload).on('postgres_changes',{event:'*',schema:'public',table:'vins'},reload).subscribe()}catch(e){}
+  setInterval(function(){if(!document.hidden)reload()},60000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)reload()});
+}
+document.addEventListener('mc-unlocked',start);
+var pv=document.getElementById('mc-private');if(pv&&!pv.hidden)start();
+})();
+
+</script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+</body></html>
