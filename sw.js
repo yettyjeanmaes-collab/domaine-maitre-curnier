@@ -1,6 +1,6 @@
 // Garde l'app sur le téléphone pour qu'elle s'ouvre vite, même avec un réseau faible.
 // Les données du stock restent sur Supabase (jamais mises en cache ici).
-const V = "mc-v3";
+const V = "mc-v4";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(V).then(c => c.addAll(SHELL))); self.skipWaiting(); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V).map(k => caches.delete(k))))); self.clients.claim(); });
